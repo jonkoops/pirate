@@ -1,0 +1,56 @@
+C:\Users\mik\Documents\Visual Studio 2008\Projects\Music\XPTable\bin\Debug\XPTable.dll
+C:\Users\mik\Documents\Visual Studio 2008\Projects\Music\XPTable\bin\Debug\XPTable.pdb
+C:\Users\mik\Documents\Visual Studio 2008\Projects\Music\XPTable\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\mik\Documents\Visual Studio 2008\Projects\Music\XPTable\obj\Debug\XPTable.Editors.DropDownContainer.resources
+C:\Users\mik\Documents\Visual Studio 2008\Projects\Music\XPTable\obj\Debug\XPTable.Models.Table.resources
+C:\Users\mik\Documents\Visual Studio 2008\Projects\Music\XPTable\obj\Debug\XPTable.Models.TableModel.resources
+C:\Users\mik\Documents\Visual Studio 2008\Projects\Music\XPTable\obj\Debug\XPTable.csproj.GenerateResource.Cache
+C:\Users\mik\Documents\Visual Studio 2008\Projects\Music\XPTable\obj\Debug\XPTable.dll
+C:\Users\mik\Documents\Visual Studio 2008\Projects\Music\XPTable\obj\Debug\XPTable.pdb
+C:\Users\mik\Documents\Visual Studio 2010\Pirate\pirateapp\XPTable\bin\Debug\XPTable.dll
+C:\Users\mik\Documents\Visual Studio 2010\Pirate\pirateapp\XPTable\bin\Debug\XPTable.pdb
+C:\Users\mik\Documents\Visual Studio 2010\Pirate\pirateapp\XPTable\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\mik\Documents\Visual Studio 2010\Pirate\pirateapp\XPTable\obj\Debug\XPTable.Editors.DropDownContainer.resources
+C:\Users\mik\Documents\Visual Studio 2010\Pirate\pirateapp\XPTable\obj\Debug\XPTable.Models.Table.resources
+C:\Users\mik\Documents\Visual Studio 2010\Pirate\pirateapp\XPTable\obj\Debug\XPTable.Models.TableModel.resources
+C:\Users\mik\Documents\Visual Studio 2010\Pirate\pirateapp\XPTable\obj\Debug\XPTable.csproj.GenerateResource.Cache
+C:\Users\mik\Documents\Visual Studio 2010\Pirate\pirateapp\XPTable\obj\Debug\XPTable.dll
+C:\Users\mik\Documents\Visual Studio 2010\Pirate\pirateapp\XPTable\obj\Debug\XPTable.pdb
+C:\Pirate-1005-src\XPTable\bin\Debug\XPTable.dll
+C:\Pirate-1005-src\XPTable\bin\Debug\XPTable.pdb
+C:\Pirate-1005-src\XPTable\obj\Debug\ResolveAssemblyReference.cache
+C:\Pirate-1005-src\XPTable\obj\Debug\XPTable.Editors.DropDownContainer.resources
+C:\Pirate-1005-src\XPTable\obj\Debug\XPTable.Models.Table.resources
+C:\Pirate-1005-src\XPTable\obj\Debug\XPTable.Models.TableModel.resources
+C:\Pirate-1005-src\XPTable\obj\Debug\ResGen.read.1.tlog
+C:\Pirate-1005-src\XPTable\obj\Debug\ResGen.write.1.tlog
+C:\Pirate-1005-src\XPTable\obj\Debug\XPTable.dll
+C:\Pirate-1005-src\XPTable\obj\Debug\XPTable.pdb
+C:\Users\mik\Downloads\Pirate-1006-src(1)\XPTable\bin\Debug\XPTable.dll
+C:\Users\mik\Downloads\Pirate-1006-src(1)\XPTable\bin\Debug\XPTable.pdb
+C:\Users\mik\Downloads\Pirate-1006-src(1)\XPTable\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\mik\Downloads\Pirate-1006-src(1)\XPTable\obj\Debug\XPTable.Editors.DropDownContainer.resources
+C:\Users\mik\Downloads\Pirate-1006-src(1)\XPTable\obj\Debug\XPTable.Models.Table.resources
+C:\Users\mik\Downloads\Pirate-1006-src(1)\XPTable\obj\Debug\XPTable.Models.TableModel.resources
+C:\Users\mik\Downloads\Pirate-1006-src(1)\XPTable\obj\Debug\ResGen.read.1.tlog
+C:\Users\mik\Downloads\Pirate-1006-src(1)\XPTable\obj\Debug\ResGen.write.1.tlog
+C:\Users\mik\Downloads\Pirate-1006-src(1)\XPTable\obj\Debug\XPTable.dll
+C:\Users\mik\Downloads\Pirate-1006-src(1)\XPTable\obj\Debug\XPTable.pdb
+J:\Dropbox\Dropbox\Pirate\Pirate-1007-src\XPTable\bin\Debug\XPTable.dll
+J:\Dropbox\Dropbox\Pirate\Pirate-1007-src\XPTable\bin\Debug\XPTable.pdb
+J:\Dropbox\Dropbox\Pirate\Pirate-1007-src\XPTable\obj\Debug\ResolveAssemblyReference.cache
+J:\Dropbox\Dropbox\Pirate\Pirate-1007-src\XPTable\obj\Debug\XPTable.Editors.DropDownContainer.resources
+J:\Dropbox\Dropbox\Pirate\Pirate-1007-src\XPTable\obj\Debug\XPTable.Models.Table.resources
+J:\Dropbox\Dropbox\Pirate\Pirate-1007-src\XPTable\obj\Debug\XPTable.Models.TableModel.resources
+J:\Dropbox\Dropbox\Pirate\Pirate-1007-src\XPTable\obj\Debug\ResGen.read.1.tlog
+J:\Dropbox\Dropbox\Pirate\Pirate-1007-src\XPTable\obj\Debug\ResGen.write.1.tlog
+J:\Dropbox\Dropbox\Pirate\Pirate-1007-src\XPTable\obj\Debug\XPTable.dll
+J:\Dropbox\Dropbox\Pirate\Pirate-1007-src\XPTable\obj\Debug\XPTable.pdb
+C:\Users\mik\Dropbox\Pirate\Pirate-1008-src\XPTable\bin\Debug\XPTable.dll
+C:\Users\mik\Dropbox\Pirate\Pirate-1008-src\XPTable\bin\Debug\XPTable.pdb
+C:\Users\mik\Dropbox\Pirate\Pirate-1008-src\XPTable\obj\Debug\XPTable.Editors.DropDownContainer.resources
+C:\Users\mik\Dropbox\Pirate\Pirate-1008-src\XPTable\obj\Debug\XPTable.Models.Table.resources
+C:\Users\mik\Dropbox\Pirate\Pirate-1008-src\XPTable\obj\Debug\XPTable.Models.TableModel.resources
+C:\Users\mik\Dropbox\Pirate\Pirate-1008-src\XPTable\obj\Debug\XPTable.csproj.GenerateResource.Cache
+C:\Users\mik\Dropbox\Pirate\Pirate-1008-src\XPTable\obj\Debug\XPTable.dll
+C:\Users\mik\Dropbox\Pirate\Pirate-1008-src\XPTable\obj\Debug\XPTable.pdb

@@ -1,0 +1,59 @@
+C:\Users\mik\Documents\Visual Studio 2008\Projects\Music\AutoUpdate\bin\Debug\AutoUpdate.exe
+C:\Users\mik\Documents\Visual Studio 2008\Projects\Music\AutoUpdate\bin\Debug\AutoUpdate.pdb
+C:\Users\mik\Documents\Visual Studio 2008\Projects\Music\AutoUpdate\bin\Debug\AutoUpdate.xml
+C:\Users\mik\Documents\Visual Studio 2008\Projects\Music\AutoUpdate\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\mik\Documents\Visual Studio 2008\Projects\Music\AutoUpdate\obj\Debug\AutoUpdate.Resources.resources
+C:\Users\mik\Documents\Visual Studio 2008\Projects\Music\AutoUpdate\obj\Debug\AutoUpdate.vbproj.GenerateResource.Cache
+C:\Users\mik\Documents\Visual Studio 2008\Projects\Music\AutoUpdate\obj\Debug\AutoUpdate.exe
+C:\Users\mik\Documents\Visual Studio 2008\Projects\Music\AutoUpdate\obj\Debug\AutoUpdate.xml
+C:\Users\mik\Documents\Visual Studio 2008\Projects\Music\AutoUpdate\obj\Debug\AutoUpdate.pdb
+C:\Pirate-1005-src\AutoUpdate\bin\Debug\AutoUpdate.exe
+C:\Pirate-1005-src\AutoUpdate\bin\Debug\AutoUpdate.pdb
+C:\Pirate-1005-src\AutoUpdate\bin\Debug\AutoUpdate.xml
+C:\Pirate-1005-src\AutoUpdate\obj\Debug\ResolveAssemblyReference.cache
+C:\Pirate-1005-src\AutoUpdate\obj\Debug\AutoUpdate.Resources.resources
+C:\Pirate-1005-src\AutoUpdate\obj\Debug\ResGen.read.1.tlog
+C:\Pirate-1005-src\AutoUpdate\obj\Debug\ResGen.write.1.tlog
+C:\Pirate-1005-src\AutoUpdate\obj\Debug\AutoUpdate.exe
+C:\Pirate-1005-src\AutoUpdate\obj\Debug\AutoUpdate.xml
+C:\Pirate-1005-src\AutoUpdate\obj\Debug\AutoUpdate.pdb
+C:\Users\mik\Downloads\Pirate-1006-src(1)\AutoUpdate\bin\Debug\AutoUpdate.exe
+C:\Users\mik\Downloads\Pirate-1006-src(1)\AutoUpdate\bin\Debug\AutoUpdate.pdb
+C:\Users\mik\Downloads\Pirate-1006-src(1)\AutoUpdate\bin\Debug\AutoUpdate.xml
+C:\Users\mik\Downloads\Pirate-1006-src(1)\AutoUpdate\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\mik\Downloads\Pirate-1006-src(1)\AutoUpdate\obj\Debug\AutoUpdate.Resources.resources
+C:\Users\mik\Downloads\Pirate-1006-src(1)\AutoUpdate\obj\Debug\ResGen.read.1.tlog
+C:\Users\mik\Downloads\Pirate-1006-src(1)\AutoUpdate\obj\Debug\ResGen.write.1.tlog
+C:\Users\mik\Downloads\Pirate-1006-src(1)\AutoUpdate\obj\Debug\AutoUpdate.exe
+C:\Users\mik\Downloads\Pirate-1006-src(1)\AutoUpdate\obj\Debug\AutoUpdate.xml
+C:\Users\mik\Downloads\Pirate-1006-src(1)\AutoUpdate\obj\Debug\AutoUpdate.pdb
+J:\Dropbox\Dropbox\Pirate\Pirate-1007-src\AutoUpdate\bin\Debug\AutoUpdate.exe
+J:\Dropbox\Dropbox\Pirate\Pirate-1007-src\AutoUpdate\bin\Debug\AutoUpdate.pdb
+J:\Dropbox\Dropbox\Pirate\Pirate-1007-src\AutoUpdate\bin\Debug\AutoUpdate.xml
+J:\Dropbox\Dropbox\Pirate\Pirate-1007-src\AutoUpdate\obj\Debug\ResolveAssemblyReference.cache
+J:\Dropbox\Dropbox\Pirate\Pirate-1007-src\AutoUpdate\obj\Debug\AutoUpdate.Resources.resources
+J:\Dropbox\Dropbox\Pirate\Pirate-1007-src\AutoUpdate\obj\Debug\ResGen.read.1.tlog
+J:\Dropbox\Dropbox\Pirate\Pirate-1007-src\AutoUpdate\obj\Debug\ResGen.write.1.tlog
+J:\Dropbox\Dropbox\Pirate\Pirate-1007-src\AutoUpdate\obj\Debug\AutoUpdate.exe
+J:\Dropbox\Dropbox\Pirate\Pirate-1007-src\AutoUpdate\obj\Debug\AutoUpdate.xml
+J:\Dropbox\Dropbox\Pirate\Pirate-1007-src\AutoUpdate\obj\Debug\AutoUpdate.pdb
+C:\Users\mik\Dropbox\Pirate\Pirate-1008-src\AutoUpdate\bin\Debug\AutoUpdate.exe
+C:\Users\mik\Dropbox\Pirate\Pirate-1008-src\AutoUpdate\bin\Debug\AutoUpdate.pdb
+C:\Users\mik\Dropbox\Pirate\Pirate-1008-src\AutoUpdate\bin\Debug\AutoUpdate.xml
+C:\Users\mik\Dropbox\Pirate\Pirate-1008-src\AutoUpdate\obj\Debug\AutoUpdate.Resources.resources
+C:\Users\mik\Dropbox\Pirate\Pirate-1008-src\AutoUpdate\obj\Debug\AutoUpdate.vbproj.GenerateResource.Cache
+C:\Users\mik\Dropbox\Pirate\Pirate-1008-src\AutoUpdate\obj\Debug\AutoUpdate.exe
+C:\Users\mik\Dropbox\Pirate\Pirate-1008-src\AutoUpdate\obj\Debug\AutoUpdate.xml
+C:\Users\mik\Dropbox\Pirate\Pirate-1008-src\AutoUpdate\obj\Debug\AutoUpdate.pdb
+C:\Documents and Settings\Jon Koops\Desktop\Pirate-1010-src\AutoUpdate\bin\Debug\AutoUpdate.exe
+C:\Documents and Settings\Jon Koops\Desktop\Pirate-1010-src\AutoUpdate\bin\Debug\AutoUpdate.pdb
+C:\Documents and Settings\Jon Koops\Desktop\Pirate-1010-src\AutoUpdate\bin\Debug\AutoUpdate.xml
+C:\Documents and Settings\Jon Koops\Desktop\Pirate-1010-src\AutoUpdate\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Jon Koops\Desktop\Pirate-1010-src\AutoUpdate\obj\Debug\AutoUpdate.Resources.resources
+C:\Documents and Settings\Jon Koops\Desktop\Pirate-1010-src\AutoUpdate\obj\Debug\GenerateResource-ResGen.read.1.tlog
+C:\Documents and Settings\Jon Koops\Desktop\Pirate-1010-src\AutoUpdate\obj\Debug\ResGen.read.1.tlog
+C:\Documents and Settings\Jon Koops\Desktop\Pirate-1010-src\AutoUpdate\obj\Debug\GenerateResource-ResGen.write.1.tlog
+C:\Documents and Settings\Jon Koops\Desktop\Pirate-1010-src\AutoUpdate\obj\Debug\ResGen.write.1.tlog
+C:\Documents and Settings\Jon Koops\Desktop\Pirate-1010-src\AutoUpdate\obj\Debug\AutoUpdate.exe
+C:\Documents and Settings\Jon Koops\Desktop\Pirate-1010-src\AutoUpdate\obj\Debug\AutoUpdate.xml
+C:\Documents and Settings\Jon Koops\Desktop\Pirate-1010-src\AutoUpdate\obj\Debug\AutoUpdate.pdb

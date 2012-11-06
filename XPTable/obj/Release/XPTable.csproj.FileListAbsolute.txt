@@ -1,0 +1,21 @@
+C:\Users\mik\Documents\Visual Studio 2008\Projects\Music\XPTable\bin\Release\XPTable.dll
+C:\Users\mik\Documents\Visual Studio 2008\Projects\Music\XPTable\obj\Release\ResolveAssemblyReference.cache
+C:\Users\mik\Documents\Visual Studio 2008\Projects\Music\XPTable\obj\Release\XPTable.Editors.DropDownContainer.resources
+C:\Users\mik\Documents\Visual Studio 2008\Projects\Music\XPTable\obj\Release\XPTable.Models.Table.resources
+C:\Users\mik\Documents\Visual Studio 2008\Projects\Music\XPTable\obj\Release\XPTable.Models.TableModel.resources
+C:\Users\mik\Documents\Visual Studio 2008\Projects\Music\XPTable\obj\Release\XPTable.csproj.GenerateResource.Cache
+C:\Users\mik\Documents\Visual Studio 2008\Projects\Music\XPTable\obj\Release\XPTable.dll
+C:\Users\mik\Documents\Visual Studio 2010\Pirate\pirateapp\XPTable\bin\Release\XPTable.dll
+C:\Users\mik\Documents\Visual Studio 2010\Pirate\pirateapp\XPTable\obj\Release\ResolveAssemblyReference.cache
+C:\Users\mik\Documents\Visual Studio 2010\Pirate\pirateapp\XPTable\obj\Release\XPTable.Editors.DropDownContainer.resources
+C:\Users\mik\Documents\Visual Studio 2010\Pirate\pirateapp\XPTable\obj\Release\XPTable.Models.Table.resources
+C:\Users\mik\Documents\Visual Studio 2010\Pirate\pirateapp\XPTable\obj\Release\XPTable.Models.TableModel.resources
+C:\Users\mik\Documents\Visual Studio 2010\Pirate\pirateapp\XPTable\obj\Release\XPTable.csproj.GenerateResource.Cache
+C:\Users\mik\Documents\Visual Studio 2010\Pirate\pirateapp\XPTable\obj\Release\XPTable.dll
+C:\Users\mik\Pirate-1004-src\XPTable\bin\Release\XPTable.dll
+C:\Users\mik\Pirate-1004-src\XPTable\obj\Release\ResolveAssemblyReference.cache
+C:\Users\mik\Pirate-1004-src\XPTable\obj\Release\XPTable.Editors.DropDownContainer.resources
+C:\Users\mik\Pirate-1004-src\XPTable\obj\Release\XPTable.Models.Table.resources
+C:\Users\mik\Pirate-1004-src\XPTable\obj\Release\XPTable.Models.TableModel.resources
+C:\Users\mik\Pirate-1004-src\XPTable\obj\Release\XPTable.csproj.GenerateResource.Cache
+C:\Users\mik\Pirate-1004-src\XPTable\obj\Release\XPTable.dll
