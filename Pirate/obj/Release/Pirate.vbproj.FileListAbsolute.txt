@@ -22,3 +22,5 @@ C:\Users\Martin\Documents\Git\pirate\Pirate\obj\Release\Pirate.frmSettings.resou
 C:\Users\Martin\Documents\Git\pirate\Pirate\obj\Release\Pirate.Resources.resources
 C:\Users\Martin\Documents\Git\pirate\Pirate\obj\Release\Pirate.vbproj.GenerateResource.Cache
 C:\Users\Martin\Documents\Git\pirate\Pirate\obj\Release\Pirate.xml
+C:\Users\Martin\Documents\Git\pirate\Pirate\bin\Release\Newtonsoft.Json.dll
+C:\Users\Martin\Documents\Git\pirate\Pirate\bin\Release\Newtonsoft.Json.xml

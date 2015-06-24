@@ -59,6 +59,10 @@
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net35\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -148,6 +152,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\Settings.png" />
   </ItemGroup>
   <ItemGroup>
@@ -189,13 +194,13 @@
     <None Include="Resources\Pirate.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\AutoUpdate.exe" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\XPTable\XPTable.csproj">
       <Project>{1ADD2ECB-2B24-4162-8965-3EFAA9BB041E}</Project>
       <Name>XPTable</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\AutoUpdate.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

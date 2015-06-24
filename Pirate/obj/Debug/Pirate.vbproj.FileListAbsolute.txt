@@ -103,3 +103,5 @@ C:\Users\Martin\Documents\Git\pirate\Pirate\obj\Debug\Pirate.frmSettings.resourc
 C:\Users\Martin\Documents\Git\pirate\Pirate\obj\Debug\Pirate.Resources.resources
 C:\Users\Martin\Documents\Git\pirate\Pirate\obj\Debug\Pirate.vbproj.GenerateResource.Cache
 C:\Users\Martin\Documents\Git\pirate\Pirate\obj\Debug\Pirate.xml
+C:\Users\Martin\Documents\Git\pirate\Pirate\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Martin\Documents\Git\pirate\Pirate\bin\Debug\Newtonsoft.Json.xml
