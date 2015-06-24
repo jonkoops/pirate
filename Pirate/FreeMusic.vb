@@ -45,6 +45,7 @@ Public Class FreeMusic
         For Each myCookie As Cookie In response.Cookies
             If myCookie.Name = "remixlhk" Then
                 Me.LoginPrerequisites.Remixlhk = myCookie.Value
+                Exit For
             End If
         Next
 
@@ -218,14 +219,18 @@ Public Class FreeMusic
 #Region "Private functions"
 
     Private Shared Function FetchParam(paramName As String, data As String) As String
-        Dim result As String
-        Dim startPos As Integer = data.IndexOf(paramName & Convert.ToString("="))
-        If startPos <> -1 Then
-            startPos += 5
-            Dim endPos As Integer = data.IndexOf("&"c, startPos)
+        Dim htmlElementStart As Integer = data.IndexOf("<form method=""post"" action=""https://login.vk.com")
+        If htmlElementStart <> -1 Then
+            Dim html As String = data.Substring(htmlElementStart, data.IndexOf(">"c, htmlElementStart) - htmlElementStart)
 
-            result = data.Substring(startPos, endPos - startPos)
-            Return result
+            Dim startPos As Integer = html.IndexOf(paramName & "=")
+            If startPos <> -1 Then
+                startPos += paramName.Length + 1
+                Dim endPos As Integer = html.IndexOf("&"c, startPos)
+
+                Dim result As String = html.Substring(startPos, endPos - startPos)
+                Return result
+            End If
         End If
 
         Return ""
