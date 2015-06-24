@@ -1,2 +1,4 @@
 # Pirate App
-[Download](https://github.com/jonkoops/pirate/blob/master/Pirate/bin/Release/Pirate.exe?raw=true)
+Pirate is an open source webcrawler front-end for vk.com's media library.
+
+[Downloads](https://github.com/jonkoops/pirate/releases)
