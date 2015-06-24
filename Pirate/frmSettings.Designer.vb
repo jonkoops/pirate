@@ -23,26 +23,27 @@ Partial Class frmSettings
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSettings))
-        Me.TabControl1 = New System.Windows.Forms.TabControl
-        Me.tbDownloads = New System.Windows.Forms.TabPage
-        Me.chkOverwrite = New System.Windows.Forms.CheckBox
-        Me.btnBrowse = New System.Windows.Forms.Button
-        Me.chkDontAskDir = New System.Windows.Forms.CheckBox
-        Me.txtDir = New System.Windows.Forms.TextBox
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.tbAuthentication = New System.Windows.Forms.TabPage
-        Me.Label4 = New System.Windows.Forms.Label
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.txtPassword = New System.Windows.Forms.TextBox
-        Me.txtUsername = New System.Windows.Forms.TextBox
-        Me.rbtnCustomLogin = New System.Windows.Forms.RadioButton
-        Me.rbtnDefaultLogin = New System.Windows.Forms.RadioButton
-        Me.tbAbout = New System.Windows.Forms.TabPage
-        Me.TextBox1 = New System.Windows.Forms.TextBox
-        Me.fbdDialog = New System.Windows.Forms.FolderBrowserDialog
-        Me.btnClose = New System.Windows.Forms.Button
-        Me.lblLogin = New System.Windows.Forms.Label
-        Me.lbVkontakte = New System.Windows.Forms.LinkLabel
+        Me.TabControl1 = New System.Windows.Forms.TabControl()
+        Me.tbDownloads = New System.Windows.Forms.TabPage()
+        Me.chkOverwrite = New System.Windows.Forms.CheckBox()
+        Me.btnBrowse = New System.Windows.Forms.Button()
+        Me.chkDontAskDir = New System.Windows.Forms.CheckBox()
+        Me.txtDir = New System.Windows.Forms.TextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.tbAuthentication = New System.Windows.Forms.TabPage()
+        Me.lbVkontakte = New System.Windows.Forms.LinkLabel()
+        Me.lblLogin = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.txtPassword = New System.Windows.Forms.TextBox()
+        Me.txtUsername = New System.Windows.Forms.TextBox()
+        Me.rbtnCustomLogin = New System.Windows.Forms.RadioButton()
+        Me.rbtnDefaultLogin = New System.Windows.Forms.RadioButton()
+        Me.tbAbout = New System.Windows.Forms.TabPage()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
+        Me.fbdDialog = New System.Windows.Forms.FolderBrowserDialog()
+        Me.btnClose = New System.Windows.Forms.Button()
+        Me.versionLabel = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.tbDownloads.SuspendLayout()
         Me.tbAuthentication.SuspendLayout()
@@ -52,8 +53,8 @@ Partial Class frmSettings
         'TabControl1
         '
         Me.TabControl1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TabControl1.Controls.Add(Me.tbDownloads)
         Me.TabControl1.Controls.Add(Me.tbAuthentication)
         Me.TabControl1.Controls.Add(Me.tbAbout)
@@ -141,6 +142,25 @@ Partial Class frmSettings
         Me.tbAuthentication.TabIndex = 2
         Me.tbAuthentication.Text = "Authentication"
         Me.tbAuthentication.UseVisualStyleBackColor = True
+        '
+        'lbVkontakte
+        '
+        Me.lbVkontakte.AutoSize = True
+        Me.lbVkontakte.Location = New System.Drawing.Point(320, 153)
+        Me.lbVkontakte.Name = "lbVkontakte"
+        Me.lbVkontakte.Size = New System.Drawing.Size(28, 13)
+        Me.lbVkontakte.TabIndex = 7
+        Me.lbVkontakte.TabStop = True
+        Me.lbVkontakte.Text = "here"
+        '
+        'lblLogin
+        '
+        Me.lblLogin.Location = New System.Drawing.Point(8, 140)
+        Me.lblLogin.Name = "lblLogin"
+        Me.lblLogin.Size = New System.Drawing.Size(418, 29)
+        Me.lblLogin.TabIndex = 6
+        Me.lblLogin.Text = "Using the default login for vkontakte is not always a secure function. To ensure " & _
+    "accessibility for the functionality, you should create your own login         ."
         '
         'Label4
         '
@@ -231,30 +251,22 @@ Partial Class frmSettings
         Me.btnClose.Text = "Close"
         Me.btnClose.UseVisualStyleBackColor = True
         '
-        'lblLogin
+        'versionLabel
         '
-        Me.lblLogin.Location = New System.Drawing.Point(8, 140)
-        Me.lblLogin.Name = "lblLogin"
-        Me.lblLogin.Size = New System.Drawing.Size(418, 29)
-        Me.lblLogin.TabIndex = 6
-        Me.lblLogin.Text = "Using the default login for vkontakte is not always a secure function. To ensure " & _
-            "accessibility for the functionality, you should create your own login         ."
-        '
-        'lbVkontakte
-        '
-        Me.lbVkontakte.AutoSize = True
-        Me.lbVkontakte.Location = New System.Drawing.Point(320, 153)
-        Me.lbVkontakte.Name = "lbVkontakte"
-        Me.lbVkontakte.Size = New System.Drawing.Size(28, 13)
-        Me.lbVkontakte.TabIndex = 7
-        Me.lbVkontakte.TabStop = True
-        Me.lbVkontakte.Text = "here"
+        Me.versionLabel.AutoSize = True
+        Me.versionLabel.Enabled = False
+        Me.versionLabel.Location = New System.Drawing.Point(12, 225)
+        Me.versionLabel.Name = "versionLabel"
+        Me.versionLabel.Size = New System.Drawing.Size(81, 13)
+        Me.versionLabel.TabIndex = 2
+        Me.versionLabel.Text = "Version: 0.0.0.0"
         '
         'frmSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(461, 252)
+        Me.Controls.Add(Me.versionLabel)
         Me.Controls.Add(Me.btnClose)
         Me.Controls.Add(Me.TabControl1)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
@@ -270,6 +282,7 @@ Partial Class frmSettings
         Me.tbAbout.ResumeLayout(False)
         Me.tbAbout.PerformLayout()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents TabControl1 As System.Windows.Forms.TabControl
@@ -292,4 +305,5 @@ Partial Class frmSettings
     Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
     Friend WithEvents lbVkontakte As System.Windows.Forms.LinkLabel
     Friend WithEvents lblLogin As System.Windows.Forms.Label
+    Friend WithEvents versionLabel As System.Windows.Forms.Label
 End Class

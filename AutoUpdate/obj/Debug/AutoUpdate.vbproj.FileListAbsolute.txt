@@ -57,3 +57,11 @@ C:\Documents and Settings\Jon Koops\Desktop\Pirate-1010-src\AutoUpdate\obj\Debug
 C:\Documents and Settings\Jon Koops\Desktop\Pirate-1010-src\AutoUpdate\obj\Debug\AutoUpdate.exe
 C:\Documents and Settings\Jon Koops\Desktop\Pirate-1010-src\AutoUpdate\obj\Debug\AutoUpdate.xml
 C:\Documents and Settings\Jon Koops\Desktop\Pirate-1010-src\AutoUpdate\obj\Debug\AutoUpdate.pdb
+C:\Users\Martin\Documents\Git\pirate\AutoUpdate\bin\Debug\AutoUpdate.exe
+C:\Users\Martin\Documents\Git\pirate\AutoUpdate\bin\Debug\AutoUpdate.pdb
+C:\Users\Martin\Documents\Git\pirate\AutoUpdate\bin\Debug\AutoUpdate.xml
+C:\Users\Martin\Documents\Git\pirate\AutoUpdate\obj\Debug\AutoUpdate.Resources.resources
+C:\Users\Martin\Documents\Git\pirate\AutoUpdate\obj\Debug\AutoUpdate.vbproj.GenerateResource.Cache
+C:\Users\Martin\Documents\Git\pirate\AutoUpdate\obj\Debug\AutoUpdate.exe
+C:\Users\Martin\Documents\Git\pirate\AutoUpdate\obj\Debug\AutoUpdate.xml
+C:\Users\Martin\Documents\Git\pirate\AutoUpdate\obj\Debug\AutoUpdate.pdb

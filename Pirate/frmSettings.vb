@@ -1,8 +1,13 @@
 ﻿Public Class frmSettings
 
     Private isLoaded As Boolean = False
+    Private frmMain As frmMain = Nothing
 
 #Region "Form events"
+
+    Public Sub SetParentForm(ByVal frmMain As frmMain)
+        Me.frmMain = frmMain
+    End Sub
 
     Private Sub frmSettings_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If My.Settings.DownloadDir.Length < 3 Then My.Settings.DownloadDir = "C:\"
@@ -16,6 +21,8 @@
         txtPassword.Enabled = My.Settings.AuthCustom
         txtUsername.Text = My.Settings.AuthUser
         txtPassword.Text = My.Settings.AuthPass
+
+        versionLabel.Text = "Version: " & System.Reflection.Assembly.GetExecutingAssembly.GetName.Version.ToString
 
         isLoaded = True
     End Sub
@@ -36,6 +43,11 @@
 
     Private Sub SaveAuthenticationSettings()
         If Not isLoaded Then Exit Sub
+
+        If (Not frmMain Is Nothing) Then
+            frmMain.music.ResetGuid()
+        End If
+
         My.Settings.AuthCustom = rbtnCustomLogin.Checked
         My.Settings.AuthUser = If(rbtnCustomLogin.Checked, txtUsername.Text, "")
         My.Settings.AuthPass = If(rbtnCustomLogin.Checked, txtPassword.Text, "")

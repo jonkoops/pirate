@@ -92,3 +92,14 @@ C:\Documents and Settings\Jon Koops\Desktop\Pirate-1010-src\Pirate\obj\Debug\Gen
 C:\Documents and Settings\Jon Koops\Desktop\Pirate-1010-src\Pirate\obj\Debug\ResGen.write.1.tlog
 C:\Users\Martin\Documents\Git\pirate\Pirate\obj\Debug\Pirate.exe
 C:\Users\Martin\Documents\Git\pirate\Pirate\obj\Debug\Pirate.pdb
+C:\Users\Martin\Documents\Git\pirate\Pirate\bin\Debug\Pirate.exe
+C:\Users\Martin\Documents\Git\pirate\Pirate\bin\Debug\Pirate.pdb
+C:\Users\Martin\Documents\Git\pirate\Pirate\bin\Debug\Pirate.xml
+C:\Users\Martin\Documents\Git\pirate\Pirate\bin\Debug\XPTable.dll
+C:\Users\Martin\Documents\Git\pirate\Pirate\bin\Debug\XPTable.pdb
+C:\Users\Martin\Documents\Git\pirate\Pirate\obj\Debug\Pirate.vbprojResolveAssemblyReference.cache
+C:\Users\Martin\Documents\Git\pirate\Pirate\obj\Debug\Pirate.frmMain.resources
+C:\Users\Martin\Documents\Git\pirate\Pirate\obj\Debug\Pirate.frmSettings.resources
+C:\Users\Martin\Documents\Git\pirate\Pirate\obj\Debug\Pirate.Resources.resources
+C:\Users\Martin\Documents\Git\pirate\Pirate\obj\Debug\Pirate.vbproj.GenerateResource.Cache
+C:\Users\Martin\Documents\Git\pirate\Pirate\obj\Debug\Pirate.xml

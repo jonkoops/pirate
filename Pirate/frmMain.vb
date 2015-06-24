@@ -8,7 +8,7 @@ Public Class frmMain
 #Region "Main variables"
 
     Public WithEvents music As New FreeMusic
-    Private Settings As New frmSettings
+    Private Settings As frmSettings
     Public songs As New List(Of FreeMusic.Song)
     Delegate Sub UpdateSearchDelegate(ByVal result As List(Of FreeMusic.Song))
     Delegate Sub UpdateProgressDelegate(ByVal song As FreeMusic.Song)
@@ -311,8 +311,11 @@ Public Class frmMain
     End Sub
 
     Private Sub btnSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSettings.Click
-        Settings.Close()
+        If Not Settings Is Nothing Then
+            Settings.Close()
+        End If
         Settings = New frmSettings
+        Settings.SetParentForm(Me)
         Settings.Show()
         Settings.Focus()
     End Sub
