@@ -1,22 +1,73 @@
-﻿Imports System.IO
+Imports System
+Imports System.IO
 Imports System.Net
 Imports System.Web
 Imports Pirate.Logins
 
+Public Class LoginPrerequisites
+
+    Public Ip_h As String = ""
+    Public Lg_h As String = ""
+    Public Remixlhk As String = ""
+
+    Public Function IsValid() As Boolean
+        Return Not String.IsNullOrEmpty(Ip_h) And Not String.IsNullOrEmpty(Lg_h) And Not String.IsNullOrEmpty(Remixlhk)
+    End Function
+
+End Class
+
 Public Class FreeMusic
 
     Private Guid As String = ""
+    Private LoginPrerequisites As New LoginPrerequisites
     Private Random As New Random
     Private UsedLogins As New List(Of Integer)
 
 #Region "Public functions"
 
+    Public Sub FetchLoginPrerequisites()
+
+        ' Make request
+        Dim cont As New CookieContainer
+        cont.Add(New Uri("http://vk.com"), New CookieCollection())
+
+        Dim request As HttpWebRequest
+        request = WebRequest.Create("http://vk.com")
+        request.Method = "GET"
+        request.CookieContainer = cont
+
+        Dim response As HttpWebResponse = request.GetResponse
+
+        Dim responseStream As New StreamReader(response.GetResponseStream, System.Text.Encoding.GetEncoding("iso-8859-5"))
+        Dim result As String = responseStream.ReadToEnd()
+        responseStream.Close()
+
+        For Each myCookie As Cookie In response.Cookies
+            If myCookie.Name = "remixlhk" Then
+                Me.LoginPrerequisites.Remixlhk = myCookie.Value
+                Exit For
+            End If
+        Next
+
+        LoginPrerequisites.Ip_h = FetchParam("ip_h", result)
+        LoginPrerequisites.Lg_h = FetchParam("lg_h", result)
+
+        response.Close()
+
+    End Sub
+
     Public Sub Login()
         Try
+            If Not LoginPrerequisites.IsValid Then
+                FetchLoginPrerequisites()
+            End If
+
             Dim tries As Integer = 10
             While tries > 0
                 ' Make request
                 Dim cont As New CookieContainer
+                cont.Add(New Uri("http://login.vk.com"), New Cookie("remixlhk", LoginPrerequisites.Remixlhk))
+
                 Dim request As HttpWebRequest
                 request = WebRequest.Create("http://login.vk.com/")
                 request.Method = "POST"
@@ -24,7 +75,7 @@ Public Class FreeMusic
 
                 ' Create POST content and send
                 Dim login() As String = GetLogin()
-                Dim postdata As String = "act=login&success_url=&fail_url=&try_to_login=1&to=&vk=&al_test=3&email=" & HttpUtility.UrlEncode(login(0)) & "&pass=" & HttpUtility.UrlEncode(login(1)) & "&expire="
+                Dim postdata As String = "act=login&role=al_frame&expire=&captcha_sid=&captcha_key=&_origin=http%3A%2F%2Fvk.com&ip_h=" & LoginPrerequisites.Ip_h & "&lg_h=" & LoginPrerequisites.Lg_h & "&email=" & HttpUtility.UrlEncode(login(0)) & "&pass=" & HttpUtility.UrlEncode(login(1))
                 Dim postbytes() As Byte = System.Text.Encoding.UTF8.GetBytes(postdata)
                 request.ContentType = "application/x-www-form-urlencoded"
                 request.ContentLength = postbytes.Length
@@ -34,8 +85,7 @@ Public Class FreeMusic
 
                 ' Get response and login cookie
                 Dim response As HttpWebResponse = request.GetResponse
-                Dim cookies As CookieCollection = request.CookieContainer.GetCookies(New Uri("http://pirate.vk.com"))
-                For Each myCookie As Cookie In cookies
+                For Each myCookie As Cookie In response.Cookies
                     If myCookie.Name = "remixsid" Then
                         Me.Guid = myCookie.Value
                     End If
@@ -55,16 +105,21 @@ Public Class FreeMusic
 
     Public Sub Login(ByVal Username As String, ByVal Password As String)
         Try
-            
+            If Not LoginPrerequisites.IsValid Then
+                FetchLoginPrerequisites()
+            End If
+
             ' Make request
             Dim cont As New CookieContainer
+            cont.Add(New Uri("http://login.vk.com"), New Cookie("remixlhk", LoginPrerequisites.Remixlhk))
+
             Dim request As HttpWebRequest
-            request = WebRequest.Create("http://login.vk.com/")
+            request = WebRequest.Create("http://login.vk.com")
             request.Method = "POST"
             request.CookieContainer = cont
 
             ' Create POST content and send
-            Dim postdata As String = "act=login&success_url=&fail_url=&try_to_login=1&to=&vk=&al_test=3&email=" & HttpUtility.UrlEncode(Username) & "&pass=" & HttpUtility.UrlEncode(Password) & "&expire="
+            Dim postdata As String = "act=login&role=al_frame&expire=&captcha_sid=&captcha_key=&_origin=http%3A%2F%2Fvk.com&ip_h=" & LoginPrerequisites.Ip_h & "&lg_h=" & LoginPrerequisites.Lg_h & "&email=" & HttpUtility.UrlEncode(Username) & "&pass=" & HttpUtility.UrlEncode(Password)
             Dim postbytes() As Byte = System.Text.Encoding.UTF8.GetBytes(postdata)
             request.ContentType = "application/x-www-form-urlencoded"
             request.ContentLength = postbytes.Length
@@ -74,8 +129,7 @@ Public Class FreeMusic
 
             ' Get response and login cookie
             Dim response As HttpWebResponse = request.GetResponse
-            Dim cookies As CookieCollection = request.CookieContainer.GetCookies(New Uri("http://pirate.vk.com"))
-            For Each myCookie As Cookie In cookies
+            For Each myCookie As Cookie In response.Cookies
                 If myCookie.Name = "remixsid" Then
                     Me.Guid = myCookie.Value
                 End If
@@ -163,6 +217,24 @@ Public Class FreeMusic
 #End Region
 
 #Region "Private functions"
+
+    Private Shared Function FetchParam(paramName As String, data As String) As String
+        Dim htmlElementStart As Integer = data.IndexOf("<form method=""post"" action=""https://login.vk.com")
+        If htmlElementStart <> -1 Then
+            Dim html As String = data.Substring(htmlElementStart, data.IndexOf(">"c, htmlElementStart) - htmlElementStart)
+
+            Dim startPos As Integer = html.IndexOf(paramName & "=")
+            If startPos <> -1 Then
+                startPos += paramName.Length + 1
+                Dim endPos As Integer = html.IndexOf("&"c, startPos)
+
+                Dim result As String = html.Substring(startPos, endPos - startPos)
+                Return result
+            End If
+        End If
+
+        Return ""
+    End Function
 
     Private Function ParseSongs(ByVal html As String) As List(Of Song)
 
