@@ -1,10 +1,39 @@
 ﻿Imports System.IO
 Imports System.Threading
+Imports Newtonsoft.Json
+Imports Newtonsoft.Json.Linq
+
+Public Class GitHubApi
+    Public Version As New Version("0.0.0.0")
+    Public DownloadUrl As String = ""
+
+    Public Sub New()
+        Try
+
+            Dim wc As New System.Net.WebClient
+            wc.Headers("User-Agent") = "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.130 Safari/537.36"
+
+            Dim sr As New StreamReader(wc.OpenRead("https://api.github.com/repos/jonkoops/pirate/releases/latest"))
+            Dim result As String = sr.ReadToEnd()
+
+            sr.Dispose()
+            wc.Dispose()
+
+            Dim json As JObject = JObject.Parse(result)
+
+            Version = New Version(json.SelectToken("tag_name"))
+            DownloadUrl = json.SelectToken("assets")(0).SelectToken("browser_download_url")
+
+        Catch ex As Exception
+        End Try
+    End Sub
+
+End Class
 
 Public Class AutoUpdate
 
     Private Shared key As String = "pirateapp"
-    Private Shared user As String = "pirateapp"
+    Private Shared github As New GitHubApi
 
     Public Shared Function AutoUpdate() As Boolean
         Dim thread As New Thread(New ThreadStart(AddressOf AutoUpdateThread))
@@ -12,6 +41,7 @@ Public Class AutoUpdate
     End Function
 
     Private Shared Sub AutoUpdateThread()
+
         If Command.Contains(key) Then
             ' Called from auto-update
             Dim deleted As Boolean = False
@@ -30,37 +60,19 @@ Public Class AutoUpdate
             End While
         Else
             ' Called from application
-            Dim onlinestring As String = GetVersion()
-            If onlinestring.Contains("|") Then
-                Dim onlineinfo() As String = Split(onlinestring, "|")
-                Dim onlineversion As Integer = CInt(onlineinfo(0).Replace(".", ""))
-                Dim thisversion As Integer = CInt(My.Application.Info.Version.ToString.Replace(".", ""))
-                If onlineversion > thisversion Then
-                    If MsgBox("A new version is available. Do you wish to update?", MsgBoxStyle.YesNo, "Application update") = MsgBoxResult.Yes Then
-                        Dim arg As String = System.Reflection.Assembly.GetExecutingAssembly.Location & "|" & onlinestring & "|" & key
-                        Dim fs As New FileStream(My.Application.Info.DirectoryPath & "\AutoUpdate.exe", FileMode.Create)
-                        fs.Write(My.Resources.AutoUpdate, 0, My.Resources.AutoUpdate.Length)
-                        fs.Dispose()
-                        System.Diagnostics.Process.Start(My.Application.Info.DirectoryPath & "\AutoUpdate.exe", arg)
-                        Application.Exit()
-                    End If
+            Dim thisVersion As Version = System.Reflection.Assembly.GetExecutingAssembly.GetName.Version
+            If github.Version > thisVersion Then
+                If MsgBox("A new version is available. Do you wish to update?", MsgBoxStyle.YesNo, "Application update") = MsgBoxResult.Yes Then
+                    Dim arg As String = System.Reflection.Assembly.GetExecutingAssembly.Location & "|" & github.Version.ToString & "|" & github.DownloadUrl & "|" & key
+                    Dim fs As New FileStream(My.Application.Info.DirectoryPath & "\AutoUpdate.exe", FileMode.Create)
+                    fs.Write(My.Resources.AutoUpdate, 0, My.Resources.AutoUpdate.Length)
+                    fs.Dispose()
+                    System.Diagnostics.Process.Start(My.Application.Info.DirectoryPath & "\AutoUpdate.exe", arg)
+                    Application.Exit()
                 End If
             End If
         End If
     End Sub
-
-    Private Shared Function GetVersion() As String
-        Try
-            Dim wc As New System.Net.WebClient
-            Dim sr As New StreamReader(wc.OpenRead("http://api.twitter.com/1/users/show.xml?screen_name=" & user))
-            Dim result As String = sr.ReadToEnd()
-            sr.Dispose()
-            wc.Dispose()
-            Return TextBetween(result, "<text>", "</text>")
-        Catch ex As Exception
-            Return ""
-        End Try
-    End Function
 
     Private Shared Function TextBetween(ByVal i As String, ByVal s As String, ByVal e As String) As String
         Dim splitter() As String = Split(i, s, 2)

@@ -25,3 +25,4 @@ C:\Users\Martin\Documents\Git\pirate\XPTable\obj\Release\XPTable.Models.Table.re
 C:\Users\Martin\Documents\Git\pirate\XPTable\obj\Release\XPTable.Models.TableModel.resources
 C:\Users\Martin\Documents\Git\pirate\XPTable\obj\Release\XPTable.csproj.GenerateResource.Cache
 C:\Users\Martin\Documents\Git\pirate\XPTable\obj\Release\XPTable.dll
+C:\Users\Martin\Documents\Git\pirate\XPTable\obj\Release\XPTable.csprojResolveAssemblyReference.cache
