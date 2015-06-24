@@ -23,26 +23,26 @@ Partial Class frmSettings
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSettings))
-        Me.TabControl1 = New System.Windows.Forms.TabControl()
-        Me.tbDownloads = New System.Windows.Forms.TabPage()
-        Me.chkOverwrite = New System.Windows.Forms.CheckBox()
-        Me.btnBrowse = New System.Windows.Forms.Button()
-        Me.chkDontAskDir = New System.Windows.Forms.CheckBox()
-        Me.txtDir = New System.Windows.Forms.TextBox()
-        Me.Label1 = New System.Windows.Forms.Label()
-        Me.tbAuthentication = New System.Windows.Forms.TabPage()
-        Me.lbVkontakte = New System.Windows.Forms.LinkLabel()
-        Me.lblLogin = New System.Windows.Forms.Label()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.Label3 = New System.Windows.Forms.Label()
-        Me.txtPassword = New System.Windows.Forms.TextBox()
-        Me.txtUsername = New System.Windows.Forms.TextBox()
-        Me.rbtnCustomLogin = New System.Windows.Forms.RadioButton()
-        Me.rbtnDefaultLogin = New System.Windows.Forms.RadioButton()
-        Me.tbAbout = New System.Windows.Forms.TabPage()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
-        Me.fbdDialog = New System.Windows.Forms.FolderBrowserDialog()
-        Me.btnClose = New System.Windows.Forms.Button()
+        Me.TabControl1 = New System.Windows.Forms.TabControl
+        Me.tbDownloads = New System.Windows.Forms.TabPage
+        Me.chkOverwrite = New System.Windows.Forms.CheckBox
+        Me.btnBrowse = New System.Windows.Forms.Button
+        Me.chkDontAskDir = New System.Windows.Forms.CheckBox
+        Me.txtDir = New System.Windows.Forms.TextBox
+        Me.Label1 = New System.Windows.Forms.Label
+        Me.tbAuthentication = New System.Windows.Forms.TabPage
+        Me.Label4 = New System.Windows.Forms.Label
+        Me.Label3 = New System.Windows.Forms.Label
+        Me.txtPassword = New System.Windows.Forms.TextBox
+        Me.txtUsername = New System.Windows.Forms.TextBox
+        Me.rbtnCustomLogin = New System.Windows.Forms.RadioButton
+        Me.rbtnDefaultLogin = New System.Windows.Forms.RadioButton
+        Me.tbAbout = New System.Windows.Forms.TabPage
+        Me.TextBox1 = New System.Windows.Forms.TextBox
+        Me.fbdDialog = New System.Windows.Forms.FolderBrowserDialog
+        Me.btnClose = New System.Windows.Forms.Button
+        Me.lblLogin = New System.Windows.Forms.Label
+        Me.lbVkontakte = New System.Windows.Forms.LinkLabel
         Me.TabControl1.SuspendLayout()
         Me.tbDownloads.SuspendLayout()
         Me.tbAuthentication.SuspendLayout()
@@ -142,25 +142,6 @@ Partial Class frmSettings
         Me.tbAuthentication.Text = "Authentication"
         Me.tbAuthentication.UseVisualStyleBackColor = True
         '
-        'lbVkontakte
-        '
-        Me.lbVkontakte.AutoSize = True
-        Me.lbVkontakte.Location = New System.Drawing.Point(320, 153)
-        Me.lbVkontakte.Name = "lbVkontakte"
-        Me.lbVkontakte.Size = New System.Drawing.Size(28, 13)
-        Me.lbVkontakte.TabIndex = 7
-        Me.lbVkontakte.TabStop = True
-        Me.lbVkontakte.Text = "here"
-        '
-        'lblLogin
-        '
-        Me.lblLogin.Location = New System.Drawing.Point(8, 140)
-        Me.lblLogin.Name = "lblLogin"
-        Me.lblLogin.Size = New System.Drawing.Size(418, 29)
-        Me.lblLogin.TabIndex = 6
-        Me.lblLogin.Text = "Using the default login for vkontakte is not always a secure function. To ensure " & _
-            "accessibility for the functionality, you should create your own login         ."
-        '
         'Label4
         '
         Me.Label4.AutoSize = True
@@ -249,6 +230,25 @@ Partial Class frmSettings
         Me.btnClose.TabIndex = 1
         Me.btnClose.Text = "Close"
         Me.btnClose.UseVisualStyleBackColor = True
+        '
+        'lblLogin
+        '
+        Me.lblLogin.Location = New System.Drawing.Point(8, 140)
+        Me.lblLogin.Name = "lblLogin"
+        Me.lblLogin.Size = New System.Drawing.Size(418, 29)
+        Me.lblLogin.TabIndex = 6
+        Me.lblLogin.Text = "Using the default login for vkontakte is not always a secure function. To ensure " & _
+            "accessibility for the functionality, you should create your own login         ."
+        '
+        'lbVkontakte
+        '
+        Me.lbVkontakte.AutoSize = True
+        Me.lbVkontakte.Location = New System.Drawing.Point(320, 153)
+        Me.lbVkontakte.Name = "lbVkontakte"
+        Me.lbVkontakte.Size = New System.Drawing.Size(28, 13)
+        Me.lbVkontakte.TabIndex = 7
+        Me.lbVkontakte.TabStop = True
+        Me.lbVkontakte.Text = "here"
         '
         'frmSettings
         '

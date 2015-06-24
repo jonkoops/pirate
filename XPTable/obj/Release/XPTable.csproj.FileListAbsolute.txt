@@ -19,3 +19,9 @@ C:\Users\mik\Pirate-1004-src\XPTable\obj\Release\XPTable.Models.Table.resources
 C:\Users\mik\Pirate-1004-src\XPTable\obj\Release\XPTable.Models.TableModel.resources
 C:\Users\mik\Pirate-1004-src\XPTable\obj\Release\XPTable.csproj.GenerateResource.Cache
 C:\Users\mik\Pirate-1004-src\XPTable\obj\Release\XPTable.dll
+C:\Users\Martin\Documents\Git\pirate\XPTable\bin\Release\XPTable.dll
+C:\Users\Martin\Documents\Git\pirate\XPTable\obj\Release\XPTable.Editors.DropDownContainer.resources
+C:\Users\Martin\Documents\Git\pirate\XPTable\obj\Release\XPTable.Models.Table.resources
+C:\Users\Martin\Documents\Git\pirate\XPTable\obj\Release\XPTable.Models.TableModel.resources
+C:\Users\Martin\Documents\Git\pirate\XPTable\obj\Release\XPTable.csproj.GenerateResource.Cache
+C:\Users\Martin\Documents\Git\pirate\XPTable\obj\Release\XPTable.dll
