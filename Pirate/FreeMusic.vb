@@ -25,6 +25,10 @@ Public Class FreeMusic
 
 #Region "Public functions"
 
+    Public Sub ResetGuid()
+        Guid = ""
+    End Sub
+
     Public Sub FetchLoginPrerequisites()
 
         ' Make request
@@ -88,6 +92,7 @@ Public Class FreeMusic
                 For Each myCookie As Cookie In response.Cookies
                     If myCookie.Name = "remixsid" Then
                         Me.Guid = myCookie.Value
+                        Exit For
                     End If
                 Next
                 response.Close()
@@ -132,6 +137,7 @@ Public Class FreeMusic
             For Each myCookie As Cookie In response.Cookies
                 If myCookie.Name = "remixsid" Then
                     Me.Guid = myCookie.Value
+                    Exit For
                 End If
             Next
             response.Close()
