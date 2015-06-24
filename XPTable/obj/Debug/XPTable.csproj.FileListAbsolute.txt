@@ -54,3 +54,12 @@ C:\Users\mik\Dropbox\Pirate\Pirate-1008-src\XPTable\obj\Debug\XPTable.Models.Tab
 C:\Users\mik\Dropbox\Pirate\Pirate-1008-src\XPTable\obj\Debug\XPTable.csproj.GenerateResource.Cache
 C:\Users\mik\Dropbox\Pirate\Pirate-1008-src\XPTable\obj\Debug\XPTable.dll
 C:\Users\mik\Dropbox\Pirate\Pirate-1008-src\XPTable\obj\Debug\XPTable.pdb
+C:\Users\Martin\Documents\Git\pirate\XPTable\bin\Debug\XPTable.dll
+C:\Users\Martin\Documents\Git\pirate\XPTable\bin\Debug\XPTable.pdb
+C:\Users\Martin\Documents\Git\pirate\XPTable\obj\Debug\XPTable.csprojResolveAssemblyReference.cache
+C:\Users\Martin\Documents\Git\pirate\XPTable\obj\Debug\XPTable.Editors.DropDownContainer.resources
+C:\Users\Martin\Documents\Git\pirate\XPTable\obj\Debug\XPTable.Models.Table.resources
+C:\Users\Martin\Documents\Git\pirate\XPTable\obj\Debug\XPTable.Models.TableModel.resources
+C:\Users\Martin\Documents\Git\pirate\XPTable\obj\Debug\XPTable.csproj.GenerateResource.Cache
+C:\Users\Martin\Documents\Git\pirate\XPTable\obj\Debug\XPTable.dll
+C:\Users\Martin\Documents\Git\pirate\XPTable\obj\Debug\XPTable.pdb

@@ -120,9 +120,9 @@
   <data name="TextBox1.Text" xml:space="preserve">
     <value>IMPORTANT: This project including the binaries and sources is only for educational and information purpose and proof-of-concept. This should not be used to any illegal actions. If you cannot accept the following, please close the application now.
 
-Pirate is a graphical user interface for downloading files from vk.com developed in VB.NET. The application provides the user with an easy-to-use interface using the open source (with a bit of customization) XPTable component. The binary and source is available from Google Code under the name "pirate" at the URL: http://code.google.com/p/pirate/
+Pirate is a graphical user interface for downloading files from vkontakte.ru developed in VB.NET. The application provides the user with an easy-to-use interface using the open source (with a bit of customization) XPTable component. The binary and source is available from Google Code under the name "pirateapp" at the URL: http://code.google.com/p/pirateapp/
 
-The application is originally developed by Mik and released under the MIT license. The application was abandoned but adopted by the pirate team and is therefore still available under the MIT license:
+The application is developed by Mik released under the MIT license:
 
 ---------------------------
 

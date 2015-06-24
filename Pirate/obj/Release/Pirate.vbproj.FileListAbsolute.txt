@@ -10,3 +10,15 @@ C:\Users\mik\Pirate-1004-src\Pirate\obj\Release\Pirate.vbproj.GenerateResource.C
 C:\Users\mik\Pirate-1004-src\Pirate\obj\Release\Pirate.exe
 C:\Users\mik\Pirate-1004-src\Pirate\obj\Release\Pirate.xml
 C:\Users\mik\Pirate-1004-src\Pirate\obj\Release\Pirate.pdb
+C:\Users\Martin\Documents\Git\pirate\Pirate\obj\Release\Pirate.exe
+C:\Users\Martin\Documents\Git\pirate\Pirate\obj\Release\Pirate.pdb
+C:\Users\Martin\Documents\Git\pirate\Pirate\bin\Release\Pirate.exe
+C:\Users\Martin\Documents\Git\pirate\Pirate\bin\Release\Pirate.pdb
+C:\Users\Martin\Documents\Git\pirate\Pirate\bin\Release\Pirate.xml
+C:\Users\Martin\Documents\Git\pirate\Pirate\bin\Release\XPTable.dll
+C:\Users\Martin\Documents\Git\pirate\Pirate\obj\Release\Pirate.vbprojResolveAssemblyReference.cache
+C:\Users\Martin\Documents\Git\pirate\Pirate\obj\Release\Pirate.frmMain.resources
+C:\Users\Martin\Documents\Git\pirate\Pirate\obj\Release\Pirate.frmSettings.resources
+C:\Users\Martin\Documents\Git\pirate\Pirate\obj\Release\Pirate.Resources.resources
+C:\Users\Martin\Documents\Git\pirate\Pirate\obj\Release\Pirate.vbproj.GenerateResource.Cache
+C:\Users\Martin\Documents\Git\pirate\Pirate\obj\Release\Pirate.xml
