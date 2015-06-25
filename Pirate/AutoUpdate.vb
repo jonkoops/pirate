@@ -9,21 +9,18 @@ Public Class GitHubApi
 
     Public Sub New()
         Try
+            Using wc As New System.Net.WebClient
+                wc.Headers("User-Agent") = "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.130 Safari/537.36"
 
-            Dim wc As New System.Net.WebClient
-            wc.Headers("User-Agent") = "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.2357.130 Safari/537.36"
+                Using sr As New StreamReader(wc.OpenRead("https://api.github.com/repos/jonkoops/pirate/releases/latest"))
+                    Dim result As String = sr.ReadToEnd()
 
-            Dim sr As New StreamReader(wc.OpenRead("https://api.github.com/repos/jonkoops/pirate/releases/latest"))
-            Dim result As String = sr.ReadToEnd()
+                    Dim json As JObject = JObject.Parse(result)
 
-            sr.Dispose()
-            wc.Dispose()
-
-            Dim json As JObject = JObject.Parse(result)
-
-            Version = New Version(json.SelectToken("tag_name"))
-            DownloadUrl = json.SelectToken("assets")(0).SelectToken("browser_download_url")
-
+                    Version = New Version(json.SelectToken("tag_name"))
+                    DownloadUrl = json.SelectToken("assets")(0).SelectToken("browser_download_url")
+                End Using
+            End Using
         Catch ex As Exception
         End Try
     End Sub
@@ -64,20 +61,16 @@ Public Class AutoUpdate
             If github.Version > thisVersion Then
                 If MsgBox("A new version is available. Do you wish to update?", MsgBoxStyle.YesNo, "Application update") = MsgBoxResult.Yes Then
                     Dim arg As String = System.Reflection.Assembly.GetExecutingAssembly.Location & "|" & github.Version.ToString & "|" & github.DownloadUrl & "|" & key
-                    Dim fs As New FileStream(My.Application.Info.DirectoryPath & "\AutoUpdate.exe", FileMode.Create)
-                    fs.Write(My.Resources.AutoUpdate, 0, My.Resources.AutoUpdate.Length)
-                    fs.Dispose()
+
+                    Using fs As New FileStream(My.Application.Info.DirectoryPath & "\AutoUpdate.exe", FileMode.Create)
+                        fs.Write(My.Resources.AutoUpdate, 0, My.Resources.AutoUpdate.Length)
+                    End Using
+
                     System.Diagnostics.Process.Start(My.Application.Info.DirectoryPath & "\AutoUpdate.exe", arg)
                     Application.Exit()
                 End If
             End If
         End If
     End Sub
-
-    Private Shared Function TextBetween(ByVal i As String, ByVal s As String, ByVal e As String) As String
-        Dim splitter() As String = Split(i, s, 2)
-        splitter = Split(splitter(1), e, 2)
-        Return splitter(0)
-    End Function
 
 End Class

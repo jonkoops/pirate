@@ -32,31 +32,29 @@ Public Class FreeMusic
     Public Sub FetchLoginPrerequisites()
 
         ' Make request
-        Dim cont As New CookieContainer
-        cont.Add(New Uri("http://vk.com"), New CookieCollection())
-
-        Dim request As HttpWebRequest
-        request = WebRequest.Create("http://vk.com")
+        Dim request As HttpWebRequest = WebRequest.Create("http://vk.com")
         request.Method = "GET"
-        request.CookieContainer = cont
+        request.CookieContainer = New CookieContainer
+        request.CookieContainer.Add(New Uri("http://vk.com"), New CookieCollection())
 
-        Dim response As HttpWebResponse = request.GetResponse
+        Using response As HttpWebResponse = request.GetResponse
 
-        Dim responseStream As New StreamReader(response.GetResponseStream, System.Text.Encoding.GetEncoding("iso-8859-5"))
-        Dim result As String = responseStream.ReadToEnd()
-        responseStream.Close()
+            Using responseStream As New StreamReader(response.GetResponseStream, System.Text.Encoding.GetEncoding("iso-8859-5"))
+                Dim result As String = responseStream.ReadToEnd()
 
-        For Each myCookie As Cookie In response.Cookies
-            If myCookie.Name = "remixlhk" Then
-                Me.LoginPrerequisites.Remixlhk = myCookie.Value
-                Exit For
-            End If
-        Next
+                For Each myCookie As Cookie In response.Cookies
+                    If myCookie.Name = "remixlhk" Then
+                        Me.LoginPrerequisites.Remixlhk = myCookie.Value
+                        Exit For
+                    End If
+                Next
 
-        LoginPrerequisites.Ip_h = FetchParam("ip_h", result)
-        LoginPrerequisites.Lg_h = FetchParam("lg_h", result)
+                LoginPrerequisites.Ip_h = FetchParam("ip_h", result)
+                LoginPrerequisites.Lg_h = FetchParam("lg_h", result)
 
-        response.Close()
+            End Using
+
+        End Using
 
     End Sub
 
@@ -69,33 +67,33 @@ Public Class FreeMusic
             Dim tries As Integer = 10
             While tries > 0
                 ' Make request
-                Dim cont As New CookieContainer
-                cont.Add(New Uri("http://login.vk.com"), New Cookie("remixlhk", LoginPrerequisites.Remixlhk))
-
                 Dim request As HttpWebRequest
                 request = WebRequest.Create("http://login.vk.com/")
                 request.Method = "POST"
-                request.CookieContainer = cont
+                request.CookieContainer = New CookieContainer
+                request.CookieContainer.Add(New Uri("http://login.vk.com"), New Cookie("remixlhk", LoginPrerequisites.Remixlhk))
 
                 ' Create POST content and send
                 Dim login() As String = GetLogin()
                 Dim postdata As String = "act=login&role=al_frame&expire=&captcha_sid=&captcha_key=&_origin=http%3A%2F%2Fvk.com&ip_h=" & LoginPrerequisites.Ip_h & "&lg_h=" & LoginPrerequisites.Lg_h & "&email=" & HttpUtility.UrlEncode(login(0)) & "&pass=" & HttpUtility.UrlEncode(login(1))
                 Dim postbytes() As Byte = System.Text.Encoding.UTF8.GetBytes(postdata)
+
                 request.ContentType = "application/x-www-form-urlencoded"
                 request.ContentLength = postbytes.Length
-                Dim requestStream As Stream = request.GetRequestStream
-                requestStream.Write(postbytes, 0, postbytes.Length)
-                requestStream.Close()
+
+                Using requestStream As Stream = request.GetRequestStream
+                    requestStream.Write(postbytes, 0, postbytes.Length)
+                End Using
 
                 ' Get response and login cookie
-                Dim response As HttpWebResponse = request.GetResponse
-                For Each myCookie As Cookie In response.Cookies
-                    If myCookie.Name = "remixsid" Then
-                        Me.Guid = myCookie.Value
-                        Exit For
-                    End If
-                Next
-                response.Close()
+                Using response As HttpWebResponse = request.GetResponse
+                    For Each myCookie As Cookie In response.Cookies
+                        If myCookie.Name = "remixsid" Then
+                            Me.Guid = myCookie.Value
+                            Exit For
+                        End If
+                    Next
+                End Using
 
                 ' Validate guid
                 If IsLoggedIn Then Exit While
@@ -115,32 +113,32 @@ Public Class FreeMusic
             End If
 
             ' Make request
-            Dim cont As New CookieContainer
-            cont.Add(New Uri("http://login.vk.com"), New Cookie("remixlhk", LoginPrerequisites.Remixlhk))
 
-            Dim request As HttpWebRequest
-            request = WebRequest.Create("http://login.vk.com")
+            Dim request As HttpWebRequest = WebRequest.Create("http://login.vk.com")
             request.Method = "POST"
-            request.CookieContainer = cont
+            request.CookieContainer = New CookieContainer
+            request.CookieContainer.Add(New Uri("http://login.vk.com"), New Cookie("remixlhk", LoginPrerequisites.Remixlhk))
 
             ' Create POST content and send
             Dim postdata As String = "act=login&role=al_frame&expire=&captcha_sid=&captcha_key=&_origin=http%3A%2F%2Fvk.com&ip_h=" & LoginPrerequisites.Ip_h & "&lg_h=" & LoginPrerequisites.Lg_h & "&email=" & HttpUtility.UrlEncode(Username) & "&pass=" & HttpUtility.UrlEncode(Password)
             Dim postbytes() As Byte = System.Text.Encoding.UTF8.GetBytes(postdata)
+
             request.ContentType = "application/x-www-form-urlencoded"
             request.ContentLength = postbytes.Length
-            Dim requestStream As Stream = request.GetRequestStream
-            requestStream.Write(postbytes, 0, postbytes.Length)
-            requestStream.Close()
+
+            Using requestStream As Stream = request.GetRequestStream
+                requestStream.Write(postbytes, 0, postbytes.Length)
+            End Using
 
             ' Get response and login cookie
-            Dim response As HttpWebResponse = request.GetResponse
-            For Each myCookie As Cookie In response.Cookies
-                If myCookie.Name = "remixsid" Then
-                    Me.Guid = myCookie.Value
-                    Exit For
-                End If
-            Next
-            response.Close()
+            Using response As HttpWebResponse = request.GetResponse
+                For Each myCookie As Cookie In response.Cookies
+                    If myCookie.Name = "remixsid" Then
+                        Me.Guid = myCookie.Value
+                        Exit For
+                    End If
+                Next
+            End Using
 
             ' Throw error if cookie not found
             If Not IsLoggedIn Then Throw New Exception("Invalid login guid")
@@ -158,8 +156,7 @@ Public Class FreeMusic
                     Dim data As String = "act=search&al=1&offset=" & offset & "&q=" & System.Web.HttpUtility.UrlEncode(s)
 
                     ' Make request
-                    Dim request As HttpWebRequest
-                    request = WebRequest.Create("http://vk.com/audio")
+                    Dim request As HttpWebRequest = WebRequest.Create("http://vk.com/audio")
                     request.Method = "POST"
                     request.Headers.Add("Accept-Encoding", "gzip, deflate")
                     request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8"
@@ -169,16 +166,18 @@ Public Class FreeMusic
                     ' Set request settings
                     request.Headers(HttpRequestHeader.Cookie) = "remixsid=" & Me.Guid & ";"
                     Dim buffer() As Byte = System.Text.Encoding.UTF8.GetBytes(data)
-                    Dim rs As Stream = request.GetRequestStream
-                    rs.Write(buffer, 0, buffer.Length)
-                    rs.Close()
+                    Using rs As Stream = request.GetRequestStream
+                        rs.Write(buffer, 0, buffer.Length)
+                    End Using
+
+                    Dim result As String = ""
 
                     ' Get response
-                    Dim response As HttpWebResponse = request.GetResponse
-                    Dim responseStream As StreamReader = New StreamReader(response.GetResponseStream, System.Text.Encoding.GetEncoding("iso-8859-5"))
-                    Dim result As String = responseStream.ReadToEnd
-                    responseStream.Close()
-                    response.Close()
+                    Using response As HttpWebResponse = request.GetResponse
+                        Using responseStream As StreamReader = New StreamReader(response.GetResponseStream, System.Text.Encoding.GetEncoding("iso-8859-5"))
+                            result = responseStream.ReadToEnd
+                        End Using
+                    End Using
 
                     ' Parse songs
                     Dim songs As List(Of Song) = ParseSongs(result)
@@ -199,21 +198,21 @@ Public Class FreeMusic
     Public Function FetchDetail(ByVal song As Song) As Song
         Try
             ' Make request
-            Dim request As HttpWebRequest
-            request = WebRequest.Create(song.Url)
+            Dim request As HttpWebRequest = WebRequest.Create(song.Url)
             request.Method = "HEAD"
 
             ' Get response
-            Dim response As HttpWebResponse = request.GetResponse
-            Dim length As Integer = response.Headers("Content-Length")
-            response.Close()
+            Using response As HttpWebResponse = request.GetResponse
+                Dim length As Integer = response.Headers("Content-Length")
 
-            ' Set details for song
-            song.Size = length
-            song.Bitrate = MapBitrate(Math.Round(song.Size * 8 / song.Duration / 1000))
+                ' Set details for song
+                song.Size = length
+                song.Bitrate = MapBitrate(Math.Round(song.Size * 8 / song.Duration / 1000))
 
-            ' Return songs
-            Return song
+                ' Return songs
+                Return song
+            End Using
+
         Catch ex As Exception
             ' Return the song without any details
             Return song
