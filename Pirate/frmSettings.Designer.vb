@@ -31,14 +31,12 @@ Partial Class frmSettings
         Me.txtDir = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.tbAuthentication = New System.Windows.Forms.TabPage()
-        Me.lbVkontakte = New System.Windows.Forms.LinkLabel()
-        Me.lblLogin = New System.Windows.Forms.Label()
-        Me.Label4 = New System.Windows.Forms.Label()
-        Me.Label3 = New System.Windows.Forms.Label()
+        Me.lbLoggedInAs = New System.Windows.Forms.Label()
+        Me.btnLogin = New System.Windows.Forms.Button()
+        Me.lbPassword = New System.Windows.Forms.Label()
+        Me.lbUsername = New System.Windows.Forms.Label()
         Me.txtPassword = New System.Windows.Forms.TextBox()
         Me.txtUsername = New System.Windows.Forms.TextBox()
-        Me.rbtnCustomLogin = New System.Windows.Forms.RadioButton()
-        Me.rbtnDefaultLogin = New System.Windows.Forms.RadioButton()
         Me.tbAbout = New System.Windows.Forms.TabPage()
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.fbdDialog = New System.Windows.Forms.FolderBrowserDialog()
@@ -128,14 +126,12 @@ Partial Class frmSettings
         '
         'tbAuthentication
         '
-        Me.tbAuthentication.Controls.Add(Me.lbVkontakte)
-        Me.tbAuthentication.Controls.Add(Me.lblLogin)
-        Me.tbAuthentication.Controls.Add(Me.Label4)
-        Me.tbAuthentication.Controls.Add(Me.Label3)
+        Me.tbAuthentication.Controls.Add(Me.lbLoggedInAs)
+        Me.tbAuthentication.Controls.Add(Me.btnLogin)
+        Me.tbAuthentication.Controls.Add(Me.lbPassword)
+        Me.tbAuthentication.Controls.Add(Me.lbUsername)
         Me.tbAuthentication.Controls.Add(Me.txtPassword)
         Me.tbAuthentication.Controls.Add(Me.txtUsername)
-        Me.tbAuthentication.Controls.Add(Me.rbtnCustomLogin)
-        Me.tbAuthentication.Controls.Add(Me.rbtnDefaultLogin)
         Me.tbAuthentication.Location = New System.Drawing.Point(4, 22)
         Me.tbAuthentication.Name = "tbAuthentication"
         Me.tbAuthentication.Size = New System.Drawing.Size(429, 176)
@@ -143,79 +139,56 @@ Partial Class frmSettings
         Me.tbAuthentication.Text = "Authentication"
         Me.tbAuthentication.UseVisualStyleBackColor = True
         '
-        'lbVkontakte
+        'lbLoggedInAs
         '
-        Me.lbVkontakte.AutoSize = True
-        Me.lbVkontakte.Location = New System.Drawing.Point(320, 153)
-        Me.lbVkontakte.Name = "lbVkontakte"
-        Me.lbVkontakte.Size = New System.Drawing.Size(28, 13)
-        Me.lbVkontakte.TabIndex = 7
-        Me.lbVkontakte.TabStop = True
-        Me.lbVkontakte.Text = "here"
+        Me.lbLoggedInAs.AutoSize = True
+        Me.lbLoggedInAs.Location = New System.Drawing.Point(7, 42)
+        Me.lbLoggedInAs.Name = "lbLoggedInAs"
+        Me.lbLoggedInAs.Size = New System.Drawing.Size(94, 13)
+        Me.lbLoggedInAs.TabIndex = 13
+        Me.lbLoggedInAs.Text = "Logged in as: N/A"
         '
-        'lblLogin
+        'btnLogin
         '
-        Me.lblLogin.Location = New System.Drawing.Point(8, 140)
-        Me.lblLogin.Name = "lblLogin"
-        Me.lblLogin.Size = New System.Drawing.Size(418, 29)
-        Me.lblLogin.TabIndex = 6
-        Me.lblLogin.Text = "Using the default login for vkontakte is not always a secure function. To ensure " & _
-    "accessibility for the functionality, you should create your own login         ."
+        Me.btnLogin.Location = New System.Drawing.Point(71, 66)
+        Me.btnLogin.Name = "btnLogin"
+        Me.btnLogin.Size = New System.Drawing.Size(75, 23)
+        Me.btnLogin.TabIndex = 12
+        Me.btnLogin.Text = "Login"
+        Me.btnLogin.UseVisualStyleBackColor = True
         '
-        'Label4
+        'lbPassword
         '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(34, 78)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(56, 13)
-        Me.Label4.TabIndex = 5
-        Me.Label4.Text = "Password:"
+        Me.lbPassword.AutoSize = True
+        Me.lbPassword.Location = New System.Drawing.Point(7, 42)
+        Me.lbPassword.Name = "lbPassword"
+        Me.lbPassword.Size = New System.Drawing.Size(56, 13)
+        Me.lbPassword.TabIndex = 5
+        Me.lbPassword.Text = "Password:"
         '
-        'Label3
+        'lbUsername
         '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(34, 52)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(58, 13)
-        Me.Label3.TabIndex = 4
-        Me.Label3.Text = "Username:"
+        Me.lbUsername.AutoSize = True
+        Me.lbUsername.Location = New System.Drawing.Point(7, 16)
+        Me.lbUsername.Name = "lbUsername"
+        Me.lbUsername.Size = New System.Drawing.Size(58, 13)
+        Me.lbUsername.TabIndex = 4
+        Me.lbUsername.Text = "Username:"
         '
         'txtPassword
         '
-        Me.txtPassword.Location = New System.Drawing.Point(98, 75)
+        Me.txtPassword.Location = New System.Drawing.Point(71, 39)
         Me.txtPassword.Name = "txtPassword"
         Me.txtPassword.PasswordChar = Global.Microsoft.VisualBasic.ChrW(42)
-        Me.txtPassword.Size = New System.Drawing.Size(100, 20)
+        Me.txtPassword.Size = New System.Drawing.Size(120, 20)
         Me.txtPassword.TabIndex = 3
         '
         'txtUsername
         '
-        Me.txtUsername.Location = New System.Drawing.Point(98, 49)
+        Me.txtUsername.Location = New System.Drawing.Point(71, 13)
         Me.txtUsername.Name = "txtUsername"
-        Me.txtUsername.Size = New System.Drawing.Size(100, 20)
+        Me.txtUsername.Size = New System.Drawing.Size(120, 20)
         Me.txtUsername.TabIndex = 2
-        '
-        'rbtnCustomLogin
-        '
-        Me.rbtnCustomLogin.AutoSize = True
-        Me.rbtnCustomLogin.Location = New System.Drawing.Point(11, 26)
-        Me.rbtnCustomLogin.Name = "rbtnCustomLogin"
-        Me.rbtnCustomLogin.Size = New System.Drawing.Size(160, 17)
-        Me.rbtnCustomLogin.TabIndex = 1
-        Me.rbtnCustomLogin.TabStop = True
-        Me.rbtnCustomLogin.Text = "Use the following credentials"
-        Me.rbtnCustomLogin.UseVisualStyleBackColor = True
-        '
-        'rbtnDefaultLogin
-        '
-        Me.rbtnDefaultLogin.AutoSize = True
-        Me.rbtnDefaultLogin.Location = New System.Drawing.Point(11, 7)
-        Me.rbtnDefaultLogin.Name = "rbtnDefaultLogin"
-        Me.rbtnDefaultLogin.Size = New System.Drawing.Size(176, 17)
-        Me.rbtnDefaultLogin.TabIndex = 0
-        Me.rbtnDefaultLogin.TabStop = True
-        Me.rbtnDefaultLogin.Text = "Used default login for vkontakte"
-        Me.rbtnDefaultLogin.UseVisualStyleBackColor = True
         '
         'tbAbout
         '
@@ -296,14 +269,12 @@ Partial Class frmSettings
     Friend WithEvents btnClose As System.Windows.Forms.Button
     Friend WithEvents chkOverwrite As System.Windows.Forms.CheckBox
     Friend WithEvents tbAuthentication As System.Windows.Forms.TabPage
-    Friend WithEvents Label4 As System.Windows.Forms.Label
-    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents lbPassword As System.Windows.Forms.Label
+    Friend WithEvents lbUsername As System.Windows.Forms.Label
     Friend WithEvents txtPassword As System.Windows.Forms.TextBox
     Friend WithEvents txtUsername As System.Windows.Forms.TextBox
-    Friend WithEvents rbtnCustomLogin As System.Windows.Forms.RadioButton
-    Friend WithEvents rbtnDefaultLogin As System.Windows.Forms.RadioButton
     Friend WithEvents TextBox1 As System.Windows.Forms.TextBox
-    Friend WithEvents lbVkontakte As System.Windows.Forms.LinkLabel
-    Friend WithEvents lblLogin As System.Windows.Forms.Label
     Friend WithEvents versionLabel As System.Windows.Forms.Label
+    Friend WithEvents btnLogin As System.Windows.Forms.Button
+    Friend WithEvents lbLoggedInAs As System.Windows.Forms.Label
 End Class

@@ -7,7 +7,6 @@ Public Class frmMain
 
 #Region "Main variables"
 
-    Public WithEvents music As New FreeMusic
     Private Settings As frmSettings
     Public songs As New List(Of FreeMusic.Song)
     Delegate Sub UpdateSearchDelegate(ByVal result As List(Of FreeMusic.Song))
@@ -46,12 +45,11 @@ Public Class frmMain
 
     Public Sub SearchThread()
         Try
-            If Not music.IsLoggedIn And My.Settings.AuthCustom Then
-                music.Login(My.Settings.AuthUser, My.Settings.AuthPass)
-            ElseIf Not music.IsLoggedIn Then
-                music.Login()
+            If Not Manager.Music.IsLoggedIn Then
+                Manager.Music.Login(My.Settings.AuthUser, My.Settings.AuthPass)
             End If
-            Dim result As List(Of FreeMusic.Song) = music.Search(txtSearch.Text, SearchIdMax)
+
+            Dim result As List(Of FreeMusic.Song) = Manager.Music.Search(txtSearch.Text, SearchIdMax)
             songs.AddRange(result)
             Invoke(New UpdateSearchDelegate(AddressOf SearchCompleted), result)
         Catch ex As Exception
@@ -101,7 +99,7 @@ Public Class frmMain
     Public Sub FetchDetail(ByVal song As FreeMusic.Song)
         Try
             If didCancel Then Exit Sub
-            song = music.FetchDetail(song)
+            song = Manager.Music.FetchDetail(song)
             Invoke(New UpdateProgressDelegate(AddressOf UpdateProgress), New Object() {song})
         Catch ex As Exception
         End Try
@@ -315,7 +313,6 @@ Public Class frmMain
             Settings.Close()
         End If
         Settings = New frmSettings
-        Settings.SetParentForm(Me)
         Settings.Show()
         Settings.Focus()
     End Sub
@@ -354,6 +351,21 @@ Public Class frmMain
         AutoUpdate.AutoUpdate()
         ThreadPool.SetMinThreads(12, 24)
         tblSearch.Sort(5, SortOrder.Descending)
+
+        If (String.IsNullOrEmpty(My.Settings.AuthUser) Or String.IsNullOrEmpty(My.Settings.AuthPass)) Then
+            Dim form As New frmLogin
+            form.ShowDialog()
+
+        Else
+            Manager.Music.Login(My.Settings.AuthUser, My.Settings.AuthPass)
+
+            If (Not Manager.Music.IsLoggedIn) Then
+                Dim form As New frmLogin
+                form.ShowDialog()
+            End If
+
+        End If
+
     End Sub
 
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize

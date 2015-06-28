@@ -2,150 +2,41 @@ Imports System
 Imports System.IO
 Imports System.Net
 Imports System.Web
-Imports Pirate.Logins
-
-Public Class LoginPrerequisites
-
-    Public Ip_h As String = ""
-    Public Lg_h As String = ""
-    Public Remixlhk As String = ""
-
-    Public Function IsValid() As Boolean
-        Return Not String.IsNullOrEmpty(Ip_h) And Not String.IsNullOrEmpty(Lg_h) And Not String.IsNullOrEmpty(Remixlhk)
-    End Function
-
-End Class
 
 Public Class FreeMusic
 
-    Private Guid As String = ""
-    Private LoginPrerequisites As New LoginPrerequisites
-    Private Random As New Random
-    Private UsedLogins As New List(Of Integer)
+    Private Session As Session
 
 #Region "Public functions"
 
-    Public Sub ResetGuid()
-        Guid = ""
-    End Sub
-
-    Public Sub FetchLoginPrerequisites()
-
-        ' Make request
-        Dim request As HttpWebRequest = WebRequest.Create("http://vk.com")
-        request.Method = "GET"
-        request.CookieContainer = New CookieContainer
-        request.CookieContainer.Add(New Uri("http://vk.com"), New CookieCollection())
-
-        Using response As HttpWebResponse = request.GetResponse
-
-            Using responseStream As New StreamReader(response.GetResponseStream, System.Text.Encoding.GetEncoding("iso-8859-5"))
-                Dim result As String = responseStream.ReadToEnd()
-
-                For Each myCookie As Cookie In response.Cookies
-                    If myCookie.Name = "remixlhk" Then
-                        Me.LoginPrerequisites.Remixlhk = myCookie.Value
-                        Exit For
-                    End If
-                Next
-
-                LoginPrerequisites.Ip_h = FetchParam("ip_h", result)
-                LoginPrerequisites.Lg_h = FetchParam("lg_h", result)
-
-            End Using
-
-        End Using
-
-    End Sub
-
-    Public Sub Login()
+    Public Sub ResetSession()
         Try
-            If Not LoginPrerequisites.IsValid Then
-                FetchLoginPrerequisites()
-            End If
-
-            Dim tries As Integer = 10
-            While tries > 0
-                ' Make request
-                Dim request As HttpWebRequest
-                request = WebRequest.Create("http://login.vk.com/")
-                request.Method = "POST"
-                request.CookieContainer = New CookieContainer
-                request.CookieContainer.Add(New Uri("http://login.vk.com"), New Cookie("remixlhk", LoginPrerequisites.Remixlhk))
-
-                ' Create POST content and send
-                Dim login() As String = GetLogin()
-                Dim postdata As String = "act=login&role=al_frame&expire=&captcha_sid=&captcha_key=&_origin=http%3A%2F%2Fvk.com&ip_h=" & LoginPrerequisites.Ip_h & "&lg_h=" & LoginPrerequisites.Lg_h & "&email=" & HttpUtility.UrlEncode(login(0)) & "&pass=" & HttpUtility.UrlEncode(login(1))
-                Dim postbytes() As Byte = System.Text.Encoding.UTF8.GetBytes(postdata)
-
-                request.ContentType = "application/x-www-form-urlencoded"
-                request.ContentLength = postbytes.Length
-
-                Using requestStream As Stream = request.GetRequestStream
-                    requestStream.Write(postbytes, 0, postbytes.Length)
-                End Using
-
-                ' Get response and login cookie
-                Using response As HttpWebResponse = request.GetResponse
-                    For Each myCookie As Cookie In response.Cookies
-                        If myCookie.Name = "remixsid" Then
-                            Me.Guid = myCookie.Value
-                            Exit For
-                        End If
-                    Next
-                End Using
-
-                ' Validate guid
-                If IsLoggedIn Then Exit While
-
-                tries -= 1
-            End While
-
+            Session = New Session()
         Catch ex As Exception
-            Throw New Exception("Error at default login", ex)
+            MessageBox.Show(ex.ToString, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         End Try
     End Sub
 
     Public Sub Login(ByVal Username As String, ByVal Password As String)
+        If String.IsNullOrEmpty(Username) Or String.IsNullOrEmpty(Password) Then
+            MessageBox.Show("Please enter a username and password.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
+        End If
+
         Try
-            If Not LoginPrerequisites.IsValid Then
-                FetchLoginPrerequisites()
-            End If
-
-            ' Make request
-
-            Dim request As HttpWebRequest = WebRequest.Create("http://login.vk.com")
-            request.Method = "POST"
-            request.CookieContainer = New CookieContainer
-            request.CookieContainer.Add(New Uri("http://login.vk.com"), New Cookie("remixlhk", LoginPrerequisites.Remixlhk))
-
-            ' Create POST content and send
-            Dim postdata As String = "act=login&role=al_frame&expire=&captcha_sid=&captcha_key=&_origin=http%3A%2F%2Fvk.com&ip_h=" & LoginPrerequisites.Ip_h & "&lg_h=" & LoginPrerequisites.Lg_h & "&email=" & HttpUtility.UrlEncode(Username) & "&pass=" & HttpUtility.UrlEncode(Password)
-            Dim postbytes() As Byte = System.Text.Encoding.UTF8.GetBytes(postdata)
-
-            request.ContentType = "application/x-www-form-urlencoded"
-            request.ContentLength = postbytes.Length
-
-            Using requestStream As Stream = request.GetRequestStream
-                requestStream.Write(postbytes, 0, postbytes.Length)
-            End Using
-
-            ' Get response and login cookie
-            Using response As HttpWebResponse = request.GetResponse
-                For Each myCookie As Cookie In response.Cookies
-                    If myCookie.Name = "remixsid" Then
-                        Me.Guid = myCookie.Value
-                        Exit For
-                    End If
-                Next
-            End Using
-
-            ' Throw error if cookie not found
-            If Not IsLoggedIn Then Throw New Exception("Invalid login guid")
-
+            Session = New Session(Username, Password)
+            Session.TryLogin()
         Catch ex As Exception
-            Throw New Exception("Error at custom login", ex)
+            MessageBox.Show(ex.ToString, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return
         End Try
+
+        If Not Session.IsLoggedIn Then
+            MessageBox.Show("The username or password is incorrect. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        Else
+            My.Settings.AuthUser = Username
+            My.Settings.AuthPass = Password
+        End If
     End Sub
 
     Public Function Search(ByVal s As String, Optional ByVal offset As Integer = 0) As List(Of Song)
@@ -156,7 +47,7 @@ Public Class FreeMusic
                     Dim data As String = "act=search&al=1&offset=" & offset & "&q=" & System.Web.HttpUtility.UrlEncode(s)
 
                     ' Make request
-                    Dim request As HttpWebRequest = WebRequest.Create("http://vk.com/audio")
+                    Dim request As HttpWebRequest = WebRequest.Create("https://vk.com/audio")
                     request.Method = "POST"
                     request.Headers.Add("Accept-Encoding", "gzip, deflate")
                     request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8"
@@ -164,7 +55,7 @@ Public Class FreeMusic
                     request.AutomaticDecompression = DecompressionMethods.GZip Or DecompressionMethods.Deflate
 
                     ' Set request settings
-                    request.Headers(HttpRequestHeader.Cookie) = "remixsid=" & Me.Guid & ";"
+                    request.Headers(HttpRequestHeader.Cookie) = "remixsid=" & Me.Session.Guid & ";"
                     Dim buffer() As Byte = System.Text.Encoding.UTF8.GetBytes(data)
                     Using rs As Stream = request.GetRequestStream
                         rs.Write(buffer, 0, buffer.Length)
@@ -185,7 +76,7 @@ Public Class FreeMusic
                     ' Return songs
                     Return songs
                 Catch ex As WebException
-                    Login()
+                    'Login()
                 End Try
                 tries -= 1
             End While
@@ -222,24 +113,6 @@ Public Class FreeMusic
 #End Region
 
 #Region "Private functions"
-
-    Private Shared Function FetchParam(paramName As String, data As String) As String
-        Dim htmlElementStart As Integer = data.IndexOf("<form method=""post"" action=""https://login.vk.com")
-        If htmlElementStart <> -1 Then
-            Dim html As String = data.Substring(htmlElementStart, data.IndexOf(">"c, htmlElementStart) - htmlElementStart)
-
-            Dim startPos As Integer = html.IndexOf(paramName & "=")
-            If startPos <> -1 Then
-                startPos += paramName.Length + 1
-                Dim endPos As Integer = html.IndexOf("&"c, startPos)
-
-                Dim result As String = html.Substring(startPos, endPos - startPos)
-                Return result
-            End If
-        End If
-
-        Return ""
-    End Function
 
     Private Function ParseSongs(ByVal html As String) As List(Of Song)
 
@@ -296,7 +169,7 @@ Public Class FreeMusic
         song.Duration = TextBetween(TextBetween(audioRow, "<input type=""hidden"" id=""", " />"), ",", """")
         song.Url = TextBetween(TextBetween(audioRow, "<input type=""hidden"" id=""", """ />"), " value=""", ",")
 
-        If Not song.Url.StartsWith("http://") Then Return Nothing
+        If Not song.Url.StartsWith("https://") Then Return Nothing
 
         Return song
     End Function
@@ -349,7 +222,11 @@ Public Class FreeMusic
 
     Public ReadOnly Property IsLoggedIn() As Boolean
         Get
-            Return Not String.IsNullOrEmpty(Guid)
+            If Session IsNot Nothing Then
+                Return Session.IsLoggedIn
+            Else
+                Return False
+            End If
         End Get
     End Property
 
@@ -367,22 +244,6 @@ Public Class FreeMusic
         Public Bitrate As Integer = 0
         Public Url As String = "-"
     End Class
-
-#End Region
-
-#Region "Login engine"
-
-    Public Function GetLogin() As String()
-        Dim length As Integer = Logins.AllLogins.Length
-        Dim rand As Integer = Random.Next(0, length - 1)
-        While UsedLogins.Contains(rand)
-            If UsedLogins.Count = length Then
-                Throw New Exception("All logins have been used!")
-            End If
-            rand = Random.Next(0, length - 1)
-        End While
-        Return Logins.AllLogins(rand)
-    End Function
 
 #End Region
 
