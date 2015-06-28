@@ -22,35 +22,35 @@ Partial Class frmMain
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataSourceColumnBinder1 As XPTable.Models.DataSourceColumnBinder = New XPTable.Models.DataSourceColumnBinder
-        Dim DragDropRenderer1 As XPTable.Renderers.DragDropRenderer = New XPTable.Renderers.DragDropRenderer
-        Dim DataSourceColumnBinder2 As XPTable.Models.DataSourceColumnBinder = New XPTable.Models.DataSourceColumnBinder
-        Dim DragDropRenderer2 As XPTable.Renderers.DragDropRenderer = New XPTable.Renderers.DragDropRenderer
+        Dim DataSourceColumnBinder1 As XPTable.Models.DataSourceColumnBinder = New XPTable.Models.DataSourceColumnBinder()
+        Dim DragDropRenderer1 As XPTable.Renderers.DragDropRenderer = New XPTable.Renderers.DragDropRenderer()
+        Dim DataSourceColumnBinder2 As XPTable.Models.DataSourceColumnBinder = New XPTable.Models.DataSourceColumnBinder()
+        Dim DragDropRenderer2 As XPTable.Renderers.DragDropRenderer = New XPTable.Renderers.DragDropRenderer()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
-        Me.txtSearch = New System.Windows.Forms.TextBox
-        Me.btnSearch = New System.Windows.Forms.Button
-        Me.sfdDialog = New System.Windows.Forms.SaveFileDialog
-        Me.btnSettings = New System.Windows.Forms.Button
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.tblSearch = New XPTable.Models.Table
-        Me.cmSearch = New XPTable.Models.ColumnModel
-        Me.NumberColumn1 = New XPTable.Models.NumberColumn
-        Me.NumberColumn5 = New XPTable.Models.NumberColumn
-        Me.TextColumn2 = New XPTable.Models.TextColumn
-        Me.TextColumn3 = New XPTable.Models.TextColumn
-        Me.TextColumn4 = New XPTable.Models.TextColumn
-        Me.NumberColumn3 = New XPTable.Models.NumberColumn
-        Me.NumberColumn4 = New XPTable.Models.NumberColumn
-        Me.ButtonColumn1 = New XPTable.Models.ButtonColumn
-        Me.tmSearch = New XPTable.Models.TableModel
-        Me.tblDownload = New XPTable.Models.Table
-        Me.cmDownload = New XPTable.Models.ColumnModel
-        Me.NumberColumn2 = New XPTable.Models.NumberColumn
-        Me.TextColumn7 = New XPTable.Models.TextColumn
-        Me.ProgressBarColumn1 = New XPTable.Models.ProgressBarColumn
-        Me.TextColumn8 = New XPTable.Models.TextColumn
-        Me.tmDownload = New XPTable.Models.TableModel
-        Me.pbProgress = New System.Windows.Forms.ProgressBar
+        Me.txtSearch = New System.Windows.Forms.TextBox()
+        Me.btnSearch = New System.Windows.Forms.Button()
+        Me.sfdDialog = New System.Windows.Forms.SaveFileDialog()
+        Me.btnSettings = New System.Windows.Forms.Button()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.pbProgress = New System.Windows.Forms.ProgressBar()
+        Me.tblSearch = New XPTable.Models.Table()
+        Me.cmSearch = New XPTable.Models.ColumnModel()
+        Me.NumberColumn1 = New XPTable.Models.NumberColumn()
+        Me.NumberColumn5 = New XPTable.Models.NumberColumn()
+        Me.TextColumn2 = New XPTable.Models.TextColumn()
+        Me.TextColumn3 = New XPTable.Models.TextColumn()
+        Me.TextColumn4 = New XPTable.Models.TextColumn()
+        Me.NumberColumn3 = New XPTable.Models.NumberColumn()
+        Me.NumberColumn4 = New XPTable.Models.NumberColumn()
+        Me.ButtonColumn1 = New XPTable.Models.ButtonColumn()
+        Me.tmSearch = New XPTable.Models.TableModel()
+        Me.tblDownload = New XPTable.Models.Table()
+        Me.cmDownload = New XPTable.Models.ColumnModel()
+        Me.NumberColumn2 = New XPTable.Models.NumberColumn()
+        Me.TextColumn7 = New XPTable.Models.TextColumn()
+        Me.ProgressBarColumn1 = New XPTable.Models.ProgressBarColumn()
+        Me.TextColumn8 = New XPTable.Models.TextColumn()
+        Me.tmDownload = New XPTable.Models.TableModel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -61,7 +61,7 @@ Partial Class frmMain
         'txtSearch
         '
         Me.txtSearch.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtSearch.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtSearch.Location = New System.Drawing.Point(2, 2)
         Me.txtSearch.Name = "txtSearch"
@@ -97,8 +97,8 @@ Partial Class frmMain
         'SplitContainer1
         '
         Me.SplitContainer1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.SplitContainer1.Location = New System.Drawing.Point(2, 30)
         Me.SplitContainer1.Name = "SplitContainer1"
         Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
@@ -115,11 +115,20 @@ Partial Class frmMain
         Me.SplitContainer1.SplitterWidth = 19
         Me.SplitContainer1.TabIndex = 6
         '
+        'pbProgress
+        '
+        Me.pbProgress.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.pbProgress.Location = New System.Drawing.Point(2, 276)
+        Me.pbProgress.Name = "pbProgress"
+        Me.pbProgress.Size = New System.Drawing.Size(680, 19)
+        Me.pbProgress.TabIndex = 7
+        '
         'tblSearch
         '
         Me.tblSearch.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.tblSearch.BorderColor = System.Drawing.Color.Black
         Me.tblSearch.ColumnModel = Me.cmSearch
         Me.tblSearch.DataMember = Nothing
@@ -200,8 +209,8 @@ Partial Class frmMain
         'tblDownload
         '
         Me.tblDownload.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.tblDownload.BorderColor = System.Drawing.Color.Black
         Me.tblDownload.ColumnModel = Me.cmDownload
         Me.tblDownload.DataMember = Nothing
@@ -250,15 +259,6 @@ Partial Class frmMain
         '
         Me.tmDownload.RowHeight = 24
         '
-        'pbProgress
-        '
-        Me.pbProgress.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.pbProgress.Location = New System.Drawing.Point(2, 276)
-        Me.pbProgress.Name = "pbProgress"
-        Me.pbProgress.Size = New System.Drawing.Size(680, 19)
-        Me.pbProgress.TabIndex = 7
-        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -272,6 +272,7 @@ Partial Class frmMain
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MinimumSize = New System.Drawing.Size(600, 350)
         Me.Name = "frmMain"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Pirate"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)

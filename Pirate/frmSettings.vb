@@ -1,28 +1,40 @@
 ﻿Public Class frmSettings
 
     Private isLoaded As Boolean = False
-    Private frmMain As frmMain = Nothing
+
+    Private Sub ToggleLogin()
+        If Manager.Music.IsLoggedIn Then
+            btnLogin.Text = "Log out"
+            lbUsername.Visible = False
+            lbPassword.Visible = False
+            txtUsername.Visible = False
+            txtPassword.Visible = False
+            lbLoggedInAs.Visible = True
+            lbLoggedInAs.Text = "Logged in as: " & My.Settings.AuthUser
+        Else
+            btnLogin.Text = "Login"
+            lbUsername.Visible = True
+            lbPassword.Visible = True
+            txtUsername.Visible = True
+            txtPassword.Visible = True
+            lbLoggedInAs.Text = "Logged in as: N/A"
+            lbLoggedInAs.Visible = False
+        End If
+    End Sub
 
 #Region "Form events"
-
-    Public Sub SetParentForm(ByVal frmMain As frmMain)
-        Me.frmMain = frmMain
-    End Sub
 
     Private Sub frmSettings_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         If My.Settings.DownloadDir.Length < 3 Then My.Settings.DownloadDir = "C:\"
         txtDir.Text = My.Settings.DownloadDir
         chkDontAskDir.Checked = My.Settings.JustDownload
         chkOverwrite.Checked = My.Settings.OverwriteFile
-
-        rbtnDefaultLogin.Checked = Not My.Settings.AuthCustom
-        rbtnCustomLogin.Checked = My.Settings.AuthCustom
-        txtUsername.Enabled = My.Settings.AuthCustom
-        txtPassword.Enabled = My.Settings.AuthCustom
         txtUsername.Text = My.Settings.AuthUser
         txtPassword.Text = My.Settings.AuthPass
 
         versionLabel.Text = "Version: " & System.Reflection.Assembly.GetExecutingAssembly.GetName.Version.ToString
+
+        ToggleLogin()
 
         isLoaded = True
     End Sub
@@ -31,30 +43,8 @@
 
 #Region "Authentication"
 
-    Private Sub rbtn_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbtnDefaultLogin.CheckedChanged, rbtnCustomLogin.CheckedChanged
-        txtUsername.Enabled = rbtnCustomLogin.Checked
-        txtPassword.Enabled = rbtnCustomLogin.Checked
-        SaveAuthenticationSettings()
-    End Sub
-
-    Private Sub txt_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtUsername.TextChanged, txtPassword.TextChanged
-        SaveAuthenticationSettings()
-    End Sub
-
-    Private Sub SaveAuthenticationSettings()
-        If Not isLoaded Then Exit Sub
-
-        If (Not frmMain Is Nothing) Then
-            frmMain.music.ResetGuid()
-        End If
-
-        My.Settings.AuthCustom = rbtnCustomLogin.Checked
-        My.Settings.AuthUser = If(rbtnCustomLogin.Checked, txtUsername.Text, "")
-        My.Settings.AuthPass = If(rbtnCustomLogin.Checked, txtPassword.Text, "")
-    End Sub
-
-    Private Sub LinkLabel1_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles lbVkontakte.LinkClicked
-        System.Diagnostics.Process.Start("http://vkontakte.ru/")
+    Private Sub LinkLabel1_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs)
+        System.Diagnostics.Process.Start("https://vk.com")
     End Sub
 
 #End Region
@@ -86,10 +76,22 @@
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
         SaveDownloadSettings()
-        SaveAuthenticationSettings()
         Me.Close()
     End Sub
 
 #End Region
 
+    Private Sub frmSettings_FormClosed(sender As Object, e As FormClosedEventArgs) Handles MyBase.FormClosed
+        SaveDownloadSettings()
+    End Sub
+
+    Private Sub btnLogin_Click(sender As Object, e As EventArgs) Handles btnLogin.Click
+        If Manager.Music.IsLoggedIn Then
+            Manager.Music.ResetSession()
+        Else
+            Manager.Music.Login(txtUsername.Text, txtPassword.Text)
+        End If
+
+        ToggleLogin()
+    End Sub
 End Class

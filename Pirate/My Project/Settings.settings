@@ -11,9 +11,6 @@
     <Setting Name="OverwriteFile" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="AuthCustom" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="AuthUser" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
