@@ -2,6 +2,8 @@ Imports System
 Imports System.IO
 Imports System.Net
 Imports System.Web
+Imports Newtonsoft.Json
+Imports Newtonsoft.Json.Linq
 
 Public Class FreeMusic
 
@@ -44,10 +46,14 @@ Public Class FreeMusic
             Dim tries As Integer = 10
             While tries > 0
                 Try
-                    Dim data As String = "act=search&al=1&offset=" & offset & "&q=" & System.Web.HttpUtility.UrlEncode(s)
+                    'ref. https://habrahabr.ru/post/183546/ - Tutorial to get the access token and user id 
+                    Dim USER_ID As String = "183538747"
+                    Dim ACCESS_TOKEN As String = "a6e3878b79dacff2ba3e7e8e9303753f824e9220890ae1923464eaa6efee7cb1361fbb4d9acc039a2dd17"
+
+                    Dim data As String = "oid=" & USER_ID & "&q=" & System.Web.HttpUtility.UrlEncode(s) & "&offset=" & offset & "&access_token=" & ACCESS_TOKEN
 
                     ' Make request
-                    Dim request As HttpWebRequest = WebRequest.Create("https://vk.com/audio")
+                    Dim request As HttpWebRequest = WebRequest.Create("https://api.vk.com/method/audio.search")
                     request.Method = "POST"
                     request.Headers.Add("Accept-Encoding", "gzip, deflate")
                     request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8"
@@ -114,45 +120,43 @@ Public Class FreeMusic
 
 #Region "Private functions"
 
-    Private Function ParseSongs(ByVal html As String) As List(Of Song)
+    Private Function ParseSongs(ByVal json As String) As List(Of Song)
 
         ' Create list for the results
         Dim songs As New List(Of Song)
 
-        ' No songs will return the empty list
-        If Not html.Contains("<div class=""area clear_fix""") Then
+        'Check if the json is not empty 
+        If json.Equals("") Then
             Return songs
         End If
 
+        'Convert Json to Object
+        Dim response = JsonConvert.DeserializeObject(json)
+
         ' Get the songs
-        Dim splitter() As String = Split(html, "<div class=""area clear_fix""")
         Dim duplicate As Boolean
-        For Each audioRow As String In splitter
+        For i As Integer = 1 To response("response").Count - 1
             duplicate = False
-            If audioRow.StartsWith(" onclick=""") Then
-                Dim song As Song = GetSong(audioRow)
+            Dim jsonsong As JObject = response("response")(i)
+            Dim song As Song = GetSong(jsonsong)
 
-                ' If song is parsed correctly
-                If Not IsNothing(song) Then
+            If Not IsNothing(song) Then
 
-                    ' Check if song exists and add quantity
-                    For Each s As Song In songs
-                        If s.Url = song.Url Then
-                            s.Quantity += 1
-                            duplicate = True
-                        End If
-                    Next
-
-                    ' If it does not exist, then add it
-                    If Not duplicate Then
-                        songs.Add(song)
+                ' Check if song exists and add quantity
+                For Each s As Song In songs
+                    If s.Url = song.Url Then
+                        s.Quantity += 1
+                        duplicate = True
                     End If
+                Next
+                'If it does not exist, then add it
+                If Not duplicate Then
+                    songs.Add(song)
                 End If
-
             End If
         Next
 
-        ' Return result
+        'Return result
         Return songs
 
     End Function
@@ -161,48 +165,17 @@ Public Class FreeMusic
 
 #Region "Private helpers"
 
-    Private Function GetSong(ByVal audioRow As String) As Song
+    Private Function GetSong(ByVal audioRow As JObject) As Song
         Dim song As New Song
 
-        song.Artist = TextInTag(audioRow, "<a href=""", "</a>")
-        song.Title = TextInTag(audioRow, "<span class=""title", "</a>")
-        song.Duration = TextBetween(TextBetween(audioRow, "<input type=""hidden"" id=""", " />"), ",", """")
-        song.Url = TextBetween(TextBetween(audioRow, "<input type=""hidden"" id=""", """ />"), " value=""", ",")
+        song.Artist = audioRow("artist")
+        song.Title = audioRow("title")
+        song.Duration = audioRow("duration")
+        song.Url = audioRow("url")
 
-        If Not song.Url.StartsWith("https://") Then Return Nothing
+        If Not song.Url.StartsWith("http://") Then Return Nothing
 
         Return song
-    End Function
-
-    Private Function StripHtml(ByVal i As String) As String
-        If i.Length < 1 Then Return ""
-        i = i.Replace("<br/>", vbCrLf)
-        Return System.Text.RegularExpressions.Regex.Replace(i, "<[^>]*>", String.Empty)
-    End Function
-
-    Private Function TextInTag(ByVal i As String, ByVal s As String, ByVal e As String, ByVal p As String) As String
-        Dim result As String
-        result = i.Substring(i.IndexOf(s) + s.Length)
-        result = TextBetween(result, p, e)
-        result = StripHtml(result)
-        result = HttpUtility.HtmlDecode(result)
-        Return result
-    End Function
-
-    Private Function TextInTag(ByVal i As String, ByVal s As String, ByVal e As String) As String
-        Dim result As String
-        result = i.Substring(i.IndexOf(s) + s.Length)
-        result = TextBetween(result, """>", e)
-        result = StripHtml(result)
-        result = HttpUtility.HtmlDecode(result)
-        result = result.Trim()
-        Return result
-    End Function
-
-    Private Function TextBetween(ByVal i As String, ByVal s As String, ByVal e As String) As String
-        Dim splitter() As String = Split(i, s, 2)
-        splitter = Split(splitter(1), e, 2)
-        Return splitter(0)
     End Function
 
     Private Function MapBitrate(ByVal bitrate As Integer)
