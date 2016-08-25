@@ -86,11 +86,7 @@
     End Sub
 
     Private Sub btnLogin_Click(sender As Object, e As EventArgs) Handles btnLogin.Click
-        If Manager.Music.IsLoggedIn Then
-            Manager.Music.ResetSession()
-        Else
-            Manager.Music.Login(txtUsername.Text, txtPassword.Text)
-        End If
+        Manager.Music.Login(txtUsername.Text, txtPassword.Text)
 
         ToggleLogin()
     End Sub

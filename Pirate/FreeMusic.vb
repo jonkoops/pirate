@@ -1,21 +1,16 @@
 Imports System
+Imports System.Collections.ObjectModel
 Imports System.IO
 Imports System.Net
 Imports System.Web
+Imports VkNet
+Imports VkNet.Model.Attachments
 
 Public Class FreeMusic
 
-    Private Session As Session
+    Private Session2 As VkApi
 
 #Region "Public functions"
-
-    Public Sub ResetSession()
-        Try
-            Session = New Session()
-        Catch ex As Exception
-            MessageBox.Show(ex.ToString, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        End Try
-    End Sub
 
     Public Sub Login(ByVal Username As String, ByVal Password As String)
         If String.IsNullOrEmpty(Username) Or String.IsNullOrEmpty(Password) Then
@@ -24,14 +19,20 @@ Public Class FreeMusic
         End If
 
         Try
-            Session = New Session(Username, Password)
-            Session.TryLogin()
+            Session2 = New VkApi()
+            Dim appId As Integer = 5599548
+            Session2.Authorize(New ApiAuthParams With {
+                .ApplicationId = Convert.ToUInt64(appId),
+                .Login = Username,
+                .Password = Password,
+                .Settings = Enums.Filters.Settings.Audio
+            })
         Catch ex As Exception
             MessageBox.Show(ex.ToString, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Return
         End Try
 
-        If Not Session.IsLoggedIn Then
+        If Not Session2.IsAuthorized Then
             MessageBox.Show("The username or password is incorrect. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         Else
             My.Settings.AuthUser = Username
@@ -44,34 +45,18 @@ Public Class FreeMusic
             Dim tries As Integer = 10
             While tries > 0
                 Try
-                    Dim data As String = "act=search&al=1&offset=" & offset & "&q=" & System.Web.HttpUtility.UrlEncode(s)
-
-                    ' Make request
-                    Dim request As HttpWebRequest = WebRequest.Create("https://vk.com/audio")
-                    request.Method = "POST"
-                    request.Headers.Add("Accept-Encoding", "gzip, deflate")
-                    request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8"
-                    request.ContentLength = data.Length
-                    request.AutomaticDecompression = DecompressionMethods.GZip Or DecompressionMethods.Deflate
-
-                    ' Set request settings
-                    request.Headers(HttpRequestHeader.Cookie) = "remixsid=" & Me.Session.Guid & ";"
-                    Dim buffer() As Byte = System.Text.Encoding.UTF8.GetBytes(data)
-                    Using rs As Stream = request.GetRequestStream
-                        rs.Write(buffer, 0, buffer.Length)
-                    End Using
-
-                    Dim result As String = ""
-
-                    ' Get response
-                    Using response As HttpWebResponse = request.GetResponse
-                        Using responseStream As StreamReader = New StreamReader(response.GetResponseStream, System.Text.Encoding.GetEncoding("iso-8859-5"))
-                            result = responseStream.ReadToEnd
-                        End Using
-                    End Using
+                    Dim totalCount As Integer
+                    Dim musics As ReadOnlyCollection(Of Audio) = Session2.Audio.Search(New Model.RequestParams.AudioSearchParams With {
+                        .Query = s,
+                        .Autocomplete = False,
+                        .Sort = False,
+                        .Lyrics = False,
+                        .Count = 50,
+                        .Offset = offset
+                    }, totalCount)
 
                     ' Parse songs
-                    Dim songs As List(Of Song) = ParseSongs(result)
+                    Dim songs As List(Of Song) = ParseSongs(musics)
 
                     ' Return songs
                     Return songs
@@ -114,96 +99,26 @@ Public Class FreeMusic
 
 #Region "Private functions"
 
-    Private Function ParseSongs(ByVal html As String) As List(Of Song)
+    Private Function ParseSongs(audios As ReadOnlyCollection(Of Audio)) As List(Of Song)
 
         ' Create list for the results
         Dim songs As New List(Of Song)
 
-        ' No songs will return the empty list
-        If Not html.Contains("<div class=""area clear_fix""") Then
-            Return songs
-        End If
-
-        ' Get the songs
-        Dim splitter() As String = Split(html, "<div class=""area clear_fix""")
-        Dim duplicate As Boolean
-        For Each audioRow As String In splitter
-            duplicate = False
-            If audioRow.StartsWith(" onclick=""") Then
-                Dim song As Song = GetSong(audioRow)
-
-                ' If song is parsed correctly
-                If Not IsNothing(song) Then
-
-                    ' Check if song exists and add quantity
-                    For Each s As Song In songs
-                        If s.Url = song.Url Then
-                            s.Quantity += 1
-                            duplicate = True
-                        End If
-                    Next
-
-                    ' If it does not exist, then add it
-                    If Not duplicate Then
-                        songs.Add(song)
-                    End If
-                End If
-
-            End If
+        For Each audio As Audio In audios
+            songs.Add(New Song With {
+                .Artist = audio.Artist,
+                .Title = audio.Title,
+                .Duration = audio.Duration,
+                .Url = audio.Url.ToString()
+            })
         Next
 
-        ' Return result
         Return songs
-
     End Function
 
 #End Region
 
 #Region "Private helpers"
-
-    Private Function GetSong(ByVal audioRow As String) As Song
-        Dim song As New Song
-
-        song.Artist = TextInTag(audioRow, "<a href=""", "</a>")
-        song.Title = TextInTag(audioRow, "<span class=""title", "</a>")
-        song.Duration = TextBetween(TextBetween(audioRow, "<input type=""hidden"" id=""", " />"), ",", """")
-        song.Url = TextBetween(TextBetween(audioRow, "<input type=""hidden"" id=""", """ />"), " value=""", ",")
-
-        If Not song.Url.StartsWith("https://") Then Return Nothing
-
-        Return song
-    End Function
-
-    Private Function StripHtml(ByVal i As String) As String
-        If i.Length < 1 Then Return ""
-        i = i.Replace("<br/>", vbCrLf)
-        Return System.Text.RegularExpressions.Regex.Replace(i, "<[^>]*>", String.Empty)
-    End Function
-
-    Private Function TextInTag(ByVal i As String, ByVal s As String, ByVal e As String, ByVal p As String) As String
-        Dim result As String
-        result = i.Substring(i.IndexOf(s) + s.Length)
-        result = TextBetween(result, p, e)
-        result = StripHtml(result)
-        result = HttpUtility.HtmlDecode(result)
-        Return result
-    End Function
-
-    Private Function TextInTag(ByVal i As String, ByVal s As String, ByVal e As String) As String
-        Dim result As String
-        result = i.Substring(i.IndexOf(s) + s.Length)
-        result = TextBetween(result, """>", e)
-        result = StripHtml(result)
-        result = HttpUtility.HtmlDecode(result)
-        result = result.Trim()
-        Return result
-    End Function
-
-    Private Function TextBetween(ByVal i As String, ByVal s As String, ByVal e As String) As String
-        Dim splitter() As String = Split(i, s, 2)
-        splitter = Split(splitter(1), e, 2)
-        Return splitter(0)
-    End Function
 
     Private Function MapBitrate(ByVal bitrate As Integer)
         Dim tolerance As Integer = 10
@@ -222,11 +137,7 @@ Public Class FreeMusic
 
     Public ReadOnly Property IsLoggedIn() As Boolean
         Get
-            If Session IsNot Nothing Then
-                Return Session.IsLoggedIn
-            Else
-                Return False
-            End If
+            Return Session2.IsAuthorized
         End Get
     End Property
 
