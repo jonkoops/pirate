@@ -48,7 +48,7 @@ Public Class FreeMusic
                 Try
                     'ref. https://habrahabr.ru/post/183546/ - Tutorial to get the access token and user id 
                     Dim USER_ID As String = "183538747"
-                    Dim ACCESS_TOKEN As String = "a6e3878b79dacff2ba3e7e8e9303753f824e9220890ae1923464eaa6efee7cb1361fbb4d9acc039a2dd17"
+                    Dim ACCESS_TOKEN As String = "c0d47e7408a2a25fbc2f417c01847ff3c5c0d9a32d2a2fe2173af5b1e8e7547e12a37e12c0b58ef020049"
 
                     Dim data As String = "oid=" & USER_ID & "&q=" & System.Web.HttpUtility.UrlEncode(s) & "&offset=" & offset & "&access_token=" & ACCESS_TOKEN
 
