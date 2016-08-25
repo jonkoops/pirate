@@ -8,9 +8,17 @@ Imports VkNet.Model.Attachments
 
 Public Class FreeMusic
 
-    Private Session2 As VkApi
+    Private Session As VkApi
 
 #Region "Public functions"
+
+    Public Sub ResetSession()
+        Try
+            Session = New VkApi()
+        Catch ex As Exception
+            MessageBox.Show(ex.ToString, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        End Try
+    End Sub
 
     Public Sub Login(ByVal Username As String, ByVal Password As String)
         If String.IsNullOrEmpty(Username) Or String.IsNullOrEmpty(Password) Then
@@ -19,9 +27,9 @@ Public Class FreeMusic
         End If
 
         Try
-            Session2 = New VkApi()
-            Dim appId As Integer = 5599548
-            Session2.Authorize(New ApiAuthParams With {
+            Session = New VkApi()
+            Dim appId As Integer = My.Settings.VkApplicationId
+            Session.Authorize(New ApiAuthParams With {
                 .ApplicationId = Convert.ToUInt64(appId),
                 .Login = Username,
                 .Password = Password,
@@ -32,7 +40,7 @@ Public Class FreeMusic
             Return
         End Try
 
-        If Not Session2.IsAuthorized Then
+        If Not Session.IsAuthorized Then
             MessageBox.Show("The username or password is incorrect. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
         Else
             My.Settings.AuthUser = Username
@@ -46,7 +54,7 @@ Public Class FreeMusic
             While tries > 0
                 Try
                     Dim totalCount As Integer
-                    Dim musics As ReadOnlyCollection(Of Audio) = Session2.Audio.Search(New Model.RequestParams.AudioSearchParams With {
+                    Dim musics As ReadOnlyCollection(Of Audio) = Session.Audio.Search(New Model.RequestParams.AudioSearchParams With {
                         .Query = s,
                         .Autocomplete = False,
                         .Sort = False,
@@ -137,7 +145,7 @@ Public Class FreeMusic
 
     Public ReadOnly Property IsLoggedIn() As Boolean
         Get
-            Return Session2.IsAuthorized
+            Return Session.IsAuthorized
         End Get
     End Property
 

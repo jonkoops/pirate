@@ -17,5 +17,8 @@
     <Setting Name="AuthPass" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="VkApplicationId" Type="System.String" Scope="User">
+      <Value Profile="(Default)">5599548</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
