@@ -277,13 +277,13 @@ Public Class frmMain
     End Sub
 
     Private Sub btnSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSearch.Click
-        Search()
+        If (btnSearch.Enabled) Then
+            Search()
+        End If
     End Sub
 
     Private Sub txtSearch_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txtSearch.KeyDown
-        If e.KeyCode = Keys.Enter And btnSearch.Enabled Then
-            Search()
-        ElseIf e.KeyCode = Keys.Escape Then
+        If e.KeyCode = Keys.Escape Then
             didCancel = True
             FinishSearch()
         End If

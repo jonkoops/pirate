@@ -32,7 +32,6 @@ Partial Class frmMain
         Me.sfdDialog = New System.Windows.Forms.SaveFileDialog()
         Me.btnSettings = New System.Windows.Forms.Button()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.pbProgress = New System.Windows.Forms.ProgressBar()
         Me.tblSearch = New XPTable.Models.Table()
         Me.cmSearch = New XPTable.Models.ColumnModel()
         Me.NumberColumn1 = New XPTable.Models.NumberColumn()
@@ -51,6 +50,8 @@ Partial Class frmMain
         Me.ProgressBarColumn1 = New XPTable.Models.ProgressBarColumn()
         Me.TextColumn8 = New XPTable.Models.TextColumn()
         Me.tmDownload = New XPTable.Models.TableModel()
+        Me.pbProgress = New System.Windows.Forms.ProgressBar()
+        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -114,15 +115,6 @@ Partial Class frmMain
         Me.SplitContainer1.SplitterDistance = 246
         Me.SplitContainer1.SplitterWidth = 19
         Me.SplitContainer1.TabIndex = 6
-        '
-        'pbProgress
-        '
-        Me.pbProgress.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.pbProgress.Location = New System.Drawing.Point(2, 276)
-        Me.pbProgress.Name = "pbProgress"
-        Me.pbProgress.Size = New System.Drawing.Size(680, 19)
-        Me.pbProgress.TabIndex = 7
         '
         'tblSearch
         '
@@ -259,8 +251,18 @@ Partial Class frmMain
         '
         Me.tmDownload.RowHeight = 24
         '
+        'pbProgress
+        '
+        Me.pbProgress.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.pbProgress.Location = New System.Drawing.Point(2, 276)
+        Me.pbProgress.Name = "pbProgress"
+        Me.pbProgress.Size = New System.Drawing.Size(680, 19)
+        Me.pbProgress.TabIndex = 7
+        '
         'frmMain
         '
+        Me.AcceptButton = Me.btnSearch
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(684, 412)
@@ -276,6 +278,7 @@ Partial Class frmMain
         Me.Text = "Pirate"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
+        CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.tblSearch, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.tblDownload, System.ComponentModel.ISupportInitialize).EndInit()
