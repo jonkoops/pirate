@@ -49,33 +49,37 @@ Public Class FreeMusic
     End Sub
 
     Public Function Search(ByVal s As String, Optional ByVal offset As Integer = 0) As List(Of Song)
-        Try
-            Dim tries As Integer = 10
-            While tries > 0
-                Try
-                    Dim totalCount As Integer
-                    Dim musics As ReadOnlyCollection(Of Audio) = Session.Audio.Search(New Model.RequestParams.AudioSearchParams With {
-                        .Query = s,
-                        .Autocomplete = False,
-                        .Sort = False,
-                        .Lyrics = False,
-                        .Count = 50,
-                        .Offset = offset
-                    }, totalCount)
+        If s IsNot Nothing Then
+            Try
+                Dim tries As Integer = 10
+                While tries > 0
+                    Try
+                        ' Do the API request
+                        Dim totalCount As Integer
+                        Dim musics As ReadOnlyCollection(Of Audio) = Session.Audio.Search(New Model.RequestParams.AudioSearchParams With {
+                            .Query = s,
+                            .Autocomplete = False,
+                            .Sort = False,
+                            .Lyrics = False,
+                            .Count = 50,
+                            .Offset = offset
+                        }, totalCount)
 
-                    ' Parse songs
-                    Dim songs As List(Of Song) = ParseSongs(musics)
+                        ' Parse songs
+                        Dim songs As List(Of Song) = ParseSongs(musics)
 
-                    ' Return songs
-                    Return songs
-                Catch ex As WebException
-                    'Login()
-                End Try
-                tries -= 1
-            End While
-        Catch ex As Exception
-            Throw New Exception("Error at searching for songs", ex)
-        End Try
+                        ' Return songs
+                        Return songs
+                    Catch ex As WebException
+                        'Login()
+                    End Try
+                    tries -= 1
+                End While
+            Catch ex As Exception
+                Throw New Exception("Error at searching for songs", ex)
+            End Try
+        End If
+
         Return New List(Of Song)
     End Function
 
@@ -145,7 +149,11 @@ Public Class FreeMusic
 
     Public ReadOnly Property IsLoggedIn() As Boolean
         Get
-            Return Session.IsAuthorized
+            If Session Is Nothing Then
+                Return False
+            Else
+                Return Session.IsAuthorized
+            End If
         End Get
     End Property
 
