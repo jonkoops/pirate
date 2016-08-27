@@ -9,12 +9,12 @@ Imports VkNet.Model.Attachments
 
 Public Class FreeMusic
 
-    Private Session As VkApi
+    Private _vkApi As VkApi
 
 #Region "Public functions"
 
     Public Sub ResetSession()
-        Session = New VkApi()
+        _vkApi = New VkApi()
     End Sub
 
     Public Sub Login(ByVal username As String, ByVal password As String)
@@ -26,9 +26,9 @@ Public Class FreeMusic
         End If
 
         Try
-            Session = New VkApi()
+            _vkApi = New VkApi()
             Dim appId As Integer = My.Settings.VkApplicationId
-            Session.Authorize(New ApiAuthParams With {
+            _vkApi.Authorize(New ApiAuthParams With {
                 .ApplicationId = Convert.ToUInt64(appId),
                 .Login = username,
                 .Password = password,
@@ -46,7 +46,7 @@ Public Class FreeMusic
     Public Function Search(ByVal query As String, Optional ByVal offset As Integer = 0) As List(Of Song)
         ' Do the API request
         Dim totalCount As Integer
-        Dim musics As ReadOnlyCollection(Of Audio) = Session.Audio.Search(New Model.RequestParams.AudioSearchParams With {
+        Dim musics As ReadOnlyCollection(Of Audio) = _vkApi.Audio.Search(New Model.RequestParams.AudioSearchParams With {
                 .Query = query,
                 .Autocomplete = False,
                 .Sort = False,
@@ -127,7 +127,7 @@ Public Class FreeMusic
 
     Public ReadOnly Property IsLoggedIn() As Boolean
         Get
-            Return Session IsNot Nothing AndAlso Session.IsAuthorized
+            Return _vkApi IsNot Nothing AndAlso _vkApi.IsAuthorized
         End Get
     End Property
 

@@ -1,4 +1,4 @@
-﻿Public Class frmLogin
+﻿Public Class FrmLogin
 
     Private Sub lbVkontakte_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles lbVkontakte.LinkClicked
         System.Diagnostics.Process.Start("https://vk.com")

@@ -3,24 +3,24 @@ Imports System.Net
 Imports System.Threading
 Imports System.Web
 
-Public Class frmMain
+Public Class FrmMain
 
 #Region "Main variables"
 
-    Private Settings As frmSettings
-    Public songs As New List(Of FreeMusic.Song)
+    Private _settings As frmSettings
+    Public Songs As New List(Of FreeMusic.Song)
     Delegate Sub UpdateSearchDelegate(ByVal result As List(Of FreeMusic.Song))
     Delegate Sub UpdateProgressDelegate(ByVal song As FreeMusic.Song)
     Delegate Sub UpdateDownloadDelegate(ByVal info() As String)
-    Private progress As Integer = 0
-    Private isMouseDown As Boolean = False
-    Private progressY As Integer = 0
+    Private _progress As Integer = 0
+    Private _isMouseDown As Boolean = False
+    Private _progressY As Integer = 0
     Private CurrentDownloads As New ArrayList
-    Private DownloadIdMax As Integer = 0
-    Private didCancel As Boolean
-    Private searchString As String = ""
-    Private SearchIdMax As Integer = 0
-    Private SongsToFetch As Integer = 0
+    Private _downloadIdMax As Integer = 0
+    Private _didCancel As Boolean
+    Private _searchString As String = ""
+    Private _searchIdMax As Integer = 0
+    Private _songsToFetch As Integer = 0
 
 #End Region
 
@@ -29,16 +29,16 @@ Public Class frmMain
 #Region "Search"
 
     Public Sub Search()
-        If searchString <> txtSearch.Text Then
-            searchString = txtSearch.Text
-            Me.songs.Clear()
+        If _searchString <> txtSearch.Text Then
+            _searchString = txtSearch.Text
+            Me.Songs.Clear()
             tmSearch.Rows.Clear()
-            SearchIdMax = 0
+            _searchIdMax = 0
         End If
         pbProgress.Value = 0
         btnSearch.Text = "Searching.."
         btnSearch.Enabled = False
-        didCancel = False
+        _didCancel = False
         Dim thread As New Thread(New ThreadStart(AddressOf SearchThread))
         thread.Start()
     End Sub
@@ -49,8 +49,8 @@ Public Class frmMain
                 Manager.Music.Login(My.Settings.AuthUser, My.Settings.AuthPass)
             End If
 
-            Dim result As List(Of FreeMusic.Song) = Manager.Music.Search(txtSearch.Text, SearchIdMax)
-            songs.AddRange(result)
+            Dim result As List(Of FreeMusic.Song) = Manager.Music.Search(txtSearch.Text, _searchIdMax)
+            Songs.AddRange(result)
             Invoke(New UpdateSearchDelegate(AddressOf SearchCompleted), result)
         Catch ex As Exception
             MessageBox.Show("Could not search and parse data: " & vbCrLf & vbCrLf & ex.Message, "An error occured", MessageBoxButtons.OK, MessageBoxIcon.Warning)
@@ -60,7 +60,7 @@ Public Class frmMain
 
     Public Sub SearchCompleted(ByVal result As List(Of FreeMusic.Song))
         For Each song As FreeMusic.Song In result
-            song.RowId = SearchIdMax
+            song.RowId = _searchIdMax
             Dim length As New TimeSpan(0, 0, song.Duration)
             Dim r As New XPTable.Models.Row()
             r.Cells.Add(New XPTable.Models.Cell(song.RowId))
@@ -72,7 +72,7 @@ Public Class frmMain
             r.Cells.Add(New XPTable.Models.Cell(song.Size))
             r.Cells.Add(New XPTable.Models.Cell("Download"))
             tmSearch.Rows.Add(r)
-            SearchIdMax += 1
+            _searchIdMax += 1
         Next
         tblSearch.ScrollToTop()
         FetchDetails(result)
@@ -85,8 +85,8 @@ Public Class frmMain
     Public Sub FetchDetails(ByVal songs As List(Of FreeMusic.Song))
         If songs.Count > 0 Then
             btnSearch.Text = "Fetching.."
-            SongsToFetch = songs.Count
-            progress = 0
+            _songsToFetch = songs.Count
+            _progress = 0
             For i As Integer = 1 To songs.Count
                 ThreadPool.QueueUserWorkItem(New WaitCallback(AddressOf FetchDetail), songs(i - 1))
                 pbProgress.Value = Math.Round(i / songs.Count * 100)
@@ -98,7 +98,7 @@ Public Class frmMain
 
     Public Sub FetchDetail(ByVal song As FreeMusic.Song)
         Try
-            If didCancel Then Exit Sub
+            If _didCancel Then Exit Sub
             song = Manager.Music.FetchDetail(song)
             Invoke(New UpdateProgressDelegate(AddressOf UpdateProgress), New Object() {song})
         Catch ex As Exception
@@ -106,7 +106,7 @@ Public Class frmMain
     End Sub
 
     Public Sub UpdateProgress(ByVal song As FreeMusic.Song)
-        progress += 1
+        _progress += 1
 
         For Each row As XPTable.Models.Row In tmSearch.Rows
             If row.Cells(0).Data = song.RowId Then
@@ -116,7 +116,7 @@ Public Class frmMain
             End If
         Next
 
-        If progress = SongsToFetch Then
+        If _progress = _songsToFetch Then
             FinishSearch()
         End If
     End Sub
@@ -131,7 +131,7 @@ Public Class frmMain
     Private Sub RenderSearchButton()
         btnSearch.Enabled = Not String.IsNullOrWhiteSpace(txtSearch.Text)
 
-        If txtSearch.Text = searchString And searchString.Length > 0 Then
+        If txtSearch.Text = _searchString And _searchString.Length > 0 Then
             btnSearch.Text = "More.."
         Else
             btnSearch.Text = "Search"
@@ -173,8 +173,8 @@ Public Class frmMain
     End Sub
 
     Public Sub Download(ByVal url As String, ByVal file As String)
-        Dim id As Integer = DownloadIdMax
-        DownloadIdMax += 1
+        Dim id As Integer = _downloadIdMax
+        _downloadIdMax += 1
         Dim r As New XPTable.Models.Row
         r.Cells.Add(New XPTable.Models.Cell(id))
         r.Cells.Add(New XPTable.Models.Cell(file))
@@ -249,7 +249,7 @@ Public Class frmMain
         For Each row As XPTable.Models.Row In tmDownload.Rows
             If row.Cells(0).Data = info(0) Then
                 row.Cells(2).Data = p
-                row.Cells(3).Text = If(progress >= 100, "Completed", Math.Round(CType(info(3), Double) / 1024, 2) & " KB/s")
+                row.Cells(3).Text = If(_progress >= 100, "Completed", Math.Round(CType(info(3), Double) / 1024, 2) & " KB/s")
                 Exit For
             End If
         Next
@@ -262,20 +262,20 @@ Public Class frmMain
 #Region "Control methods"
 
     Private Sub pbProgress_MouseDown(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles pbProgress.MouseDown
-        progressY = pbProgress.PointToClient(Cursor.Position).Y
-        isMouseDown = True
+        _progressY = pbProgress.PointToClient(Cursor.Position).Y
+        _isMouseDown = True
     End Sub
 
     Private Sub pbProgress_MouseMove(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles pbProgress.MouseMove
-        If isMouseDown Then
+        If _isMouseDown Then
             Dim frmPoint As Integer = Me.PointToClient(Cursor.Position).Y
-            SplitContainer1.SplitterDistance = frmPoint - progressY - 30
-            pbProgress.Location = New Point(2, frmPoint - progressY)
+            SplitContainer1.SplitterDistance = frmPoint - _progressY - 30
+            pbProgress.Location = New Point(2, frmPoint - _progressY)
         End If
     End Sub
 
     Private Sub pbProgress_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles pbProgress.MouseUp
-        isMouseDown = False
+        _isMouseDown = False
     End Sub
 
     Private Sub btnSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSearch.Click
@@ -284,7 +284,7 @@ Public Class frmMain
 
     Private Sub txtSearch_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txtSearch.KeyDown
         If e.KeyCode = Keys.Escape Then
-            didCancel = True
+            _didCancel = True
             FinishSearch()
         End If
     End Sub
@@ -309,12 +309,12 @@ Public Class frmMain
     End Sub
 
     Private Sub btnSettings_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSettings.Click
-        If Not Settings Is Nothing Then
-            Settings.Close()
+        If Not _settings Is Nothing Then
+            _settings.Close()
         End If
-        Settings = New frmSettings
-        Settings.Show()
-        Settings.Focus()
+        _settings = New frmSettings
+        _settings.Show()
+        _settings.Focus()
     End Sub
 
     Private Sub tblDownload_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles tblDownload.KeyDown
@@ -354,14 +354,14 @@ Public Class frmMain
         btnSearch.Enabled = Not String.IsNullOrWhiteSpace(txtSearch.Text)
 
         If (String.IsNullOrEmpty(My.Settings.AuthUser) Or String.IsNullOrEmpty(My.Settings.AuthPass)) Then
-            Dim form As New frmLogin
+            Dim form As New FrmLogin
             form.ShowDialog()
         Else
             Try
                 Manager.Music.Login(My.Settings.AuthUser, My.Settings.AuthPass)
             Catch ex As Exception
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                Dim form As New frmLogin
+                Dim form As New FrmLogin
                 form.ShowDialog()
             End Try
         End If
