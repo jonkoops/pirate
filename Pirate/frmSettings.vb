@@ -89,7 +89,11 @@
         If Manager.Music.IsLoggedIn Then
             Manager.Music.ResetSession()
         Else
-            Manager.Music.Login(txtUsername.Text, txtPassword.Text)
+            Try
+                Manager.Music.Login(txtUsername.Text, txtPassword.Text)
+            Catch ex As Exception
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End Try
         End If
 
         ToggleLogin()

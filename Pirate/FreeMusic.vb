@@ -4,6 +4,7 @@ Imports System.IO
 Imports System.Net
 Imports System.Web
 Imports VkNet
+Imports VkNet.Exception
 Imports VkNet.Model.Attachments
 
 Public Class FreeMusic
@@ -13,17 +14,15 @@ Public Class FreeMusic
 #Region "Public functions"
 
     Public Sub ResetSession()
-        Try
-            Session = New VkApi()
-        Catch ex As Exception
-            MessageBox.Show(ex.ToString, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        End Try
+        Session = New VkApi()
     End Sub
 
-    Public Sub Login(ByVal Username As String, ByVal Password As String)
-        If String.IsNullOrEmpty(Username) Or String.IsNullOrEmpty(Password) Then
-            MessageBox.Show("Please enter a username and password.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Return
+    Public Sub Login(ByVal username As String, ByVal password As String)
+        If String.IsNullOrEmpty(username) Then
+            Throw New ArgumentNullException("username", "Please enter a username.")
+        End If
+        If String.IsNullOrEmpty(password) Then
+            Throw New ArgumentNullException("password", "Please enter a password.")
         End If
 
         Try
@@ -31,56 +30,36 @@ Public Class FreeMusic
             Dim appId As Integer = My.Settings.VkApplicationId
             Session.Authorize(New ApiAuthParams With {
                 .ApplicationId = Convert.ToUInt64(appId),
-                .Login = Username,
-                .Password = Password,
+                .Login = username,
+                .Password = password,
                 .Settings = Enums.Filters.Settings.Audio
             })
-        Catch ex As Exception
-            MessageBox.Show(ex.ToString, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-            Return
-        End Try
 
-        If Not Session.IsAuthorized Then
-            MessageBox.Show("The username or password is incorrect. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        Else
-            My.Settings.AuthUser = Username
-            My.Settings.AuthPass = Password
-        End If
+            ' Save username/password settings
+            My.Settings.AuthUser = username
+            My.Settings.AuthPass = password
+        Catch ex As VkApiAuthorizationException
+            Throw New Exception("The username or password is incorrect. Please try again.", ex)
+        End Try
     End Sub
 
-    Public Function Search(ByVal s As String, Optional ByVal offset As Integer = 0) As List(Of Song)
-        If s IsNot Nothing Then
-            Try
-                Dim tries As Integer = 10
-                While tries > 0
-                    Try
-                        ' Do the API request
-                        Dim totalCount As Integer
-                        Dim musics As ReadOnlyCollection(Of Audio) = Session.Audio.Search(New Model.RequestParams.AudioSearchParams With {
-                            .Query = s,
-                            .Autocomplete = False,
-                            .Sort = False,
-                            .Lyrics = False,
-                            .Count = 50,
-                            .Offset = offset
-                        }, totalCount)
+    Public Function Search(ByVal query As String, Optional ByVal offset As Integer = 0) As List(Of Song)
+        ' Do the API request
+        Dim totalCount As Integer
+        Dim musics As ReadOnlyCollection(Of Audio) = Session.Audio.Search(New Model.RequestParams.AudioSearchParams With {
+                .Query = query,
+                .Autocomplete = False,
+                .Sort = False,
+                .Lyrics = False,
+                .Count = 50,
+                .Offset = offset
+            }, totalCount)
 
-                        ' Parse songs
-                        Dim songs As List(Of Song) = ParseSongs(musics)
+        ' Parse songs
+        Dim songs As List(Of Song) = ParseSongs(musics)
 
-                        ' Return songs
-                        Return songs
-                    Catch ex As WebException
-                        'Login()
-                    End Try
-                    tries -= 1
-                End While
-            Catch ex As Exception
-                Throw New Exception("Error at searching for songs", ex)
-            End Try
-        End If
-
-        Return New List(Of Song)
+        ' Return songs
+        Return songs
     End Function
 
     Public Function FetchDetail(ByVal song As Song) As Song
@@ -112,7 +91,6 @@ Public Class FreeMusic
 #Region "Private functions"
 
     Private Function ParseSongs(audios As ReadOnlyCollection(Of Audio)) As List(Of Song)
-
         ' Create list for the results
         Dim songs As New List(Of Song)
 
@@ -149,11 +127,7 @@ Public Class FreeMusic
 
     Public ReadOnly Property IsLoggedIn() As Boolean
         Get
-            If Session Is Nothing Then
-                Return False
-            Else
-                Return Session.IsAuthorized
-            End If
+            Return Session IsNot Nothing AndAlso Session.IsAuthorized
         End Get
     End Property
 

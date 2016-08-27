@@ -53,7 +53,7 @@ Public Class frmMain
             songs.AddRange(result)
             Invoke(New UpdateSearchDelegate(AddressOf SearchCompleted), result)
         Catch ex As Exception
-            MsgBox("Could not search and parse data: " & vbCrLf & vbCrLf & ex.ToString, MsgBoxStyle.Exclamation, "An error occured")
+            MessageBox.Show("Could not search and parse data: " & vbCrLf & vbCrLf & ex.Message, "An error occured", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             Invoke(New UpdateSearchDelegate(AddressOf SearchCompleted), New List(Of FreeMusic.Song))
         End Try
     End Sub
@@ -129,6 +129,8 @@ Public Class frmMain
     End Sub
 
     Private Sub RenderSearchButton()
+        btnSearch.Enabled = Not String.IsNullOrWhiteSpace(txtSearch.Text)
+
         If txtSearch.Text = searchString And searchString.Length > 0 Then
             btnSearch.Text = "More.."
         Else
@@ -277,9 +279,7 @@ Public Class frmMain
     End Sub
 
     Private Sub btnSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSearch.Click
-        If (btnSearch.Enabled) Then
-            Search()
-        End If
+        Search()
     End Sub
 
     Private Sub txtSearch_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txtSearch.KeyDown
@@ -351,21 +351,20 @@ Public Class frmMain
         AutoUpdate.AutoUpdate()
         ThreadPool.SetMinThreads(12, 24)
         tblSearch.Sort(5, SortOrder.Descending)
+        btnSearch.Enabled = Not String.IsNullOrWhiteSpace(txtSearch.Text)
 
         If (String.IsNullOrEmpty(My.Settings.AuthUser) Or String.IsNullOrEmpty(My.Settings.AuthPass)) Then
             Dim form As New frmLogin
             form.ShowDialog()
-
         Else
-            Manager.Music.Login(My.Settings.AuthUser, My.Settings.AuthPass)
-
-            If (Not Manager.Music.IsLoggedIn) Then
+            Try
+                Manager.Music.Login(My.Settings.AuthUser, My.Settings.AuthPass)
+            Catch ex As Exception
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 Dim form As New frmLogin
                 form.ShowDialog()
-            End If
-
+            End Try
         End If
-
     End Sub
 
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
