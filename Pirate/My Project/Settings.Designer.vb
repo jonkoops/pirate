@@ -116,7 +116,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("5599548")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("YOUR_APP_ID_HERE")>  _
         Public Property VkApplicationId() As String
             Get
                 Return CType(Me("VkApplicationId"),String)
