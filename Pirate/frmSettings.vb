@@ -1,6 +1,6 @@
-﻿Public Class frmSettings
+﻿Public Class FrmSettings
 
-    Private isLoaded As Boolean = False
+    Private _isLoaded As Boolean = False
 
     Private Sub ToggleLogin()
         If Manager.Music.IsLoggedIn Then
@@ -36,7 +36,7 @@
 
         ToggleLogin()
 
-        isLoaded = True
+        _isLoaded = True
     End Sub
 
 #End Region
@@ -67,7 +67,7 @@
     End Sub
 
     Private Sub SaveDownloadSettings()
-        If Not isLoaded Then Exit Sub
+        If Not _isLoaded Then Exit Sub
         If Not txtDir.Text.EndsWith("\") Then txtDir.Text = txtDir.Text & "\"
         My.Settings.DownloadDir = txtDir.Text
         My.Settings.JustDownload = chkDontAskDir.Checked
@@ -89,7 +89,11 @@
         If Manager.Music.IsLoggedIn Then
             Manager.Music.ResetSession()
         Else
-            Manager.Music.Login(txtUsername.Text, txtPassword.Text)
+            Try
+                Manager.Music.Login(txtUsername.Text, txtPassword.Text)
+            Catch ex As Exception
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End Try
         End If
 
         ToggleLogin()
