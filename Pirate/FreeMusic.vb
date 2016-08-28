@@ -39,7 +39,13 @@ Public Class FreeMusic
             My.Settings.AuthUser = username
             My.Settings.AuthPass = password
         Catch ex As VkApiAuthorizationException
-            Throw New Exception("The username or password is incorrect. Please try again.", ex)
+            Dim message = "Unable To log in." & Environment.NewLine & Environment.NewLine &
+              "Please check that you have entered your login and password correctly." & Environment.NewLine &
+              "- Is the Caps Lock safely turned off?" & Environment.NewLine &
+              "- Maybe you are using the wrong input language? (e.g. German vs. English)" & Environment.NewLine &
+              "- Try typing your password in a text editor and pasting it into the ""Password"" field." & Environment.NewLine & Environment.NewLine &
+              "If you then have checked everything thoroughly, but still cannot log In, please go to: https://vk.com/restore"
+            Throw New Exception(message, ex)
         End Try
     End Sub
 
