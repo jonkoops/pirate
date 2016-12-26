@@ -1,20 +1,17 @@
 Imports System
-Imports System.Collections.ObjectModel
 Imports System.IO
 Imports System.Net
-Imports System.Web
-Imports VkNet
-Imports VkNet.Exception
-Imports VkNet.Model.Attachments
+Imports System.Text.RegularExpressions
+Imports Newtonsoft.Json
+Imports Newtonsoft.Json.Linq
 
 Public Class FreeMusic
-
-    Private _vkApi As VkApi
+    Private _session As Session
 
 #Region "Public functions"
 
     Public Sub ResetSession()
-        _vkApi = New VkApi()
+        _session = New Session()
     End Sub
 
     Public Sub Login(ByVal username As String, ByVal password As String)
@@ -25,44 +22,34 @@ Public Class FreeMusic
             Throw New ArgumentNullException("password", "Please enter a password.")
         End If
 
-        Try
-            _vkApi = New VkApi()
-            Dim appId As Integer = My.Settings.VkApplicationId
-            _vkApi.Authorize(New ApiAuthParams With {
-                .ApplicationId = Convert.ToUInt64(appId),
-                .Login = username,
-                .Password = password,
-                .Settings = Enums.Filters.Settings.Audio
-            })
+        _session = New Session(username, password)
+        _session.TryLogin()
 
+        If Not _session.IsLoggedIn Then
+            Dim message = "Unable To log in." & Environment.NewLine & Environment.NewLine &
+                          "Please check that you have entered your login and password correctly." & Environment.NewLine &
+                          "- Is the Caps Lock safely turned off?" & Environment.NewLine &
+                          "- Maybe you are using the wrong input language? (e.g. German vs. English)" &
+                          Environment.NewLine &
+                          "- Try typing your password in a text editor and pasting it into the ""Password"" field." &
+                          Environment.NewLine & Environment.NewLine &
+                          "If you then have checked everything thoroughly, but still cannot log In, please go to: https://vk.com/restore"
+            Throw New Exception(message)
+        Else
             ' Save username/password settings
             My.Settings.AuthUser = username
             My.Settings.AuthPass = password
-        Catch ex As VkApiAuthorizationException
-            Dim message = "Unable To log in." & Environment.NewLine & Environment.NewLine &
-              "Please check that you have entered your login and password correctly." & Environment.NewLine &
-              "- Is the Caps Lock safely turned off?" & Environment.NewLine &
-              "- Maybe you are using the wrong input language? (e.g. German vs. English)" & Environment.NewLine &
-              "- Try typing your password in a text editor and pasting it into the ""Password"" field." & Environment.NewLine & Environment.NewLine &
-              "If you then have checked everything thoroughly, but still cannot log In, please go to: https://vk.com/restore"
-            Throw New Exception(message, ex)
-        End Try
+        End If
     End Sub
 
     Public Function Search(ByVal query As String, Optional ByVal offset As Integer = 0) As List(Of Song)
-        ' Do the API request
-        Dim totalCount As Integer
-        Dim musics As ReadOnlyCollection(Of Audio) = _vkApi.Audio.Search(New Model.RequestParams.AudioSearchParams With {
-                .Query = query,
-                .Autocomplete = False,
-                .Sort = False,
-                .Lyrics = False,
-                .Count = 50,
-                .Offset = offset
-            }, totalCount)
+        Dim data As String = "act=a_load_section&al=1&claim=0&offset=" & offset &
+                             "&search_history=0&search_lyrics=0&search_performer=0&search_q=" &
+                             System.Web.HttpUtility.UrlEncode(query) & "&search_sort=0&type=search"
+        Dim result As String = PostRequest("https://vk.com/al_audio.php", data)
 
         ' Parse songs
-        Dim songs As List(Of Song) = ParseSongs(musics)
+        Dim songs As List(Of Song) = ParseSongs(result)
 
         ' Return songs
         Return songs
@@ -96,20 +83,80 @@ Public Class FreeMusic
 
 #Region "Private functions"
 
-    Private Function ParseSongs(audios As ReadOnlyCollection(Of Audio)) As List(Of Song)
+    Private Function ParseSongs(ByVal response As String) As List(Of Song)
         ' Create list for the results
         Dim songs As New List(Of Song)
 
-        For Each audio As Audio In audios
-            songs.Add(New Song With {
-                .Artist = audio.Artist,
-                .Title = audio.Title,
-                .Duration = audio.Duration,
-                .Url = audio.Url.ToString()
-            })
-        Next
+        Dim rx As New Regex(".+?<!json>(.+)<!><!null>.*")
+        Dim m As Match = rx.Match(response)
+
+        If m.Success Then
+            Dim json = m.Groups(1).ToString()
+            Dim o As JObject = JObject.Parse(json)
+            Dim songIds = From p In o("list").Children().Select(Function(x) String.Join("_", x.Take(2).Reverse()))
+
+            ' Need to request by batch of 10...
+            While (songIds.Any())
+                songs.AddRange(GetSong(songIds.Take(10)))
+                songIds = songIds.Skip(10)
+            End While
+        End If
 
         Return songs
+    End Function
+
+    Private Function GetSong(ByVal songIds As IEnumerable(Of String)) As IEnumerable(Of Song)
+        Dim songs As New List(Of Song)
+
+        Dim data As String = "act=reload_audio&al=1&ids=" & String.Join(",", songIds)
+        Dim result As String = PostRequest("https://vk.com/al_audio.php", data)
+
+        Dim rx As New Regex(".+?<!json>(.+)<!><!json>.*")
+        Dim m As Match = rx.Match(result)
+        If m.Success Then
+            Dim str = JsonConvert.DeserializeObject(Of List(Of List(Of String)))(m.Groups(1).ToString())
+
+            For Each item In str
+                songs.Add(New Song() With {
+                             .Artist = WebUtility.HtmlDecode(item.ElementAt(4)),
+                             .Title = WebUtility.HtmlDecode(item.ElementAt(3)),
+                             .Duration = item.ElementAt(5),
+                             .Url = item.ElementAt(2)
+                             })
+            Next
+        End If
+
+        Return songs
+    End Function
+
+    Private Function PostRequest(url As String, data As String) As String
+        ' Make request
+        Dim request As HttpWebRequest = WebRequest.Create(url)
+        request.Method = "POST"
+        request.Headers.Add("Accept-Encoding", "gzip, deflate")
+        request.ContentType = "application/x-www-form-urlencoded; charset=UTF-8"
+        request.ContentLength = data.Length
+        request.AutomaticDecompression = DecompressionMethods.GZip Or DecompressionMethods.Deflate
+
+        ' Set request settings
+        request.Headers(HttpRequestHeader.Cookie) = "remixsid=" & _session.Guid & ";"
+        Dim buffer() As Byte = System.Text.Encoding.UTF8.GetBytes(data)
+        Using rs As Stream = request.GetRequestStream
+            rs.Write(buffer, 0, buffer.Length)
+        End Using
+
+        Dim result = String.Empty
+
+        ' Get response
+        Using response As HttpWebResponse = request.GetResponse
+            Using _
+                responseStream =
+                    New StreamReader(response.GetResponseStream, System.Text.Encoding.GetEncoding("iso-8859-5"))
+                result = responseStream.ReadToEnd
+            End Using
+        End Using
+
+        Return result
     End Function
 
 #End Region
@@ -117,7 +164,6 @@ Public Class FreeMusic
 #Region "Private helpers"
 
     Private Function MapBitrate(ByVal bitrate As Integer)
-        Dim tolerance As Integer = 10
         Dim mappings() As Integer = {8, 16, 24, 32, 40, 48, 56, 64, 80, 96, 112, 128, 144, 160, 192, 224, 256, 320}
         For Each map As Integer In mappings
             If (bitrate * 0.9) < map And (bitrate * 1.1) > map Then
@@ -133,7 +179,7 @@ Public Class FreeMusic
 
     Public ReadOnly Property IsLoggedIn() As Boolean
         Get
-            Return _vkApi IsNot Nothing AndAlso _vkApi.IsAuthorized
+            Return _session IsNot Nothing AndAlso _session.IsLoggedIn
         End Get
     End Property
 
@@ -153,5 +199,4 @@ Public Class FreeMusic
     End Class
 
 #End Region
-
 End Class
